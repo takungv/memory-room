@@ -488,8 +488,7 @@ const loadBoardMemories = async () => {
           className="object-hover"
           onClick={async () => {
             await loadPhotos();
-            setGiftOpen(true)
-
+            setGiftOpen(true);
           }}
         />
       </div>
@@ -518,7 +517,8 @@ const loadBoardMemories = async () => {
           className="object-hover"
           onClick={async () => {
             await loadPhotos();
-            setPhotosOpen(true)}}
+            setPhotosOpen(true);
+          }}
         />
       </div>
 
