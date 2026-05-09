@@ -69,35 +69,58 @@ function Room() {
   const normalPhotos = photos.filter((p) => p.category === "photo");
   const giftPhotos = photos.filter((p) => p.category === "gift");
 
-  useEffect(() => {
-    api.get("/Memories/guitar").then((res) => {
-      setGuitarMemories(res.data);
-    });
-  
-    api.get("/Letters").then((res) => {
-      setLetters(res.data);
-    });
-  
-    api.get("/Songs").then((res) => {
-      setSongs(res.data);
-    });
-  
-    api.get("/Photos").then((res) => {
-      setPhotos(res.data);
-    });
-  
-    api.get("/Memories/computer").then((res) => {
-      setComputerMemories(res.data);
-    });
-  
-    api.get("/Memories/cat").then((res) => {
-      setCatMemories(res.data);
-    });
-  
-    api.get("/Memories/board").then((res) => {
-      setBoardMemories(res.data);
-    });
-  }, []);
+  // =========================
+// LOAD ONLY WHEN OPEN
+// =========================
+
+const loadGuitarMemories = async () => {
+  if (guitarMemories.length > 0) return;
+
+  const res = await api.get("/Memories/guitar");
+  setGuitarMemories(res.data);
+};
+
+const loadLetters = async () => {
+  if (letters.length > 0) return;
+
+  const res = await api.get("/Letters");
+  setLetters(res.data);
+};
+
+const loadSongs = async () => {
+  if (songs.length > 0) return;
+
+  const res = await api.get("/Songs");
+  setSongs(res.data);
+};
+
+const loadPhotos = async () => {
+  if (photos.length > 0) return;
+
+  const res = await api.get("/Photos");
+  setPhotos(res.data);
+};
+
+const loadComputerMemories = async () => {
+  if (computerMemories.length > 0) return;
+
+  const res = await api.get("/Memories/computer");
+  setComputerMemories(res.data);
+};
+
+const loadCatMemories = async () => {
+  if (catMemories.length > 0) return;
+
+  const res = await api.get("/Memories/cat");
+  setCatMemories(res.data);
+};
+
+const loadBoardMemories = async () => {
+  if (boardMemories.length > 0) return;
+
+  const res = await api.get("/Memories/board");
+  setBoardMemories(res.data);
+};
 
   useEffect(() => {
     const moveRoom = (e) => {
@@ -229,13 +252,15 @@ function Room() {
     setBgMusicOn(!bgMusicOn);
   };
 
-  const openGuitar = () => {
+  const openGuitar = async () => {
+    await loadGuitarMemories();
+  
     const audio = document.getElementById("bg-audio");
-
+  
     if (audio && bgMusicOn) {
       audio.pause();
     }
-
+  
     setGuitarOpen(true);
   };
 
@@ -350,7 +375,11 @@ function Room() {
           alt=""
           
           className="object-hover"
-          onClick={() => setComputerOpen(true)}
+          onClick={async () => {
+            await loadComputerMemories();
+
+            setComputerOpen(true);
+          }}
         />
       </div>
 
@@ -370,7 +399,10 @@ function Room() {
           src={nightMode ? boardHitbox_night : boardHitbox_day}
           alt=""
           className="object-hover"
-          onClick={() => setBoardOpen(true)}
+          onClick={async () => {
+            await loadBoardMemories();
+            setBoardOpen(true)
+          }}
         />
       </div>
 
@@ -390,7 +422,11 @@ function Room() {
           src={nightMode ? catHitbox_night : catHitbox_day}
           alt=""
           className="object-hover"
-          onClick={() => setCatOpen(true)}
+          onClick={async () => {
+            await loadCatMemories();
+            setCatOpen(true)
+
+          }}
         />
       </div>
 
@@ -430,7 +466,11 @@ function Room() {
           src={nightMode ? giftHitbox_night : giftHitbox_day}
           alt=""
           className="object-hover"
-          onClick={() => setGiftOpen(true)}
+          onClick={async () => {
+            await loadPhotos();
+            setGiftOpen(true)
+
+          }}
         />
       </div>
 
@@ -456,7 +496,9 @@ function Room() {
           }
           alt=""
           className="object-hover"
-          onClick={() => setPhotosOpen(true)}
+          onClick={async () => {
+            await loadPhotos();
+            setPhotosOpen(true)}}
         />
       </div>
 
@@ -532,7 +574,9 @@ function Room() {
           src={nightMode ? songHitbox_night : songHitbox_day}
           alt=""
           className="object-hover"
-          onClick={() => setSongsOpen(true)}
+          onClick={async () => {
+            await loadSongs();
+            setSongsOpen(true)}}
         />
       </div> 
       </div>
