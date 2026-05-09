@@ -61,6 +61,22 @@ function App() {
         }
       });
     });
+    const preloadAudio = (urls) => {
+      const tasks = urls.map((url) => {
+        return new Promise((resolve) => {
+          const audio = new Audio();
+    
+          audio.src = url;
+    
+          audio.oncanplaythrough = resolve;
+          audio.onerror = resolve;
+    
+          audio.load();
+        });
+      });
+    
+      return Promise.all(tasks);
+    };
   
     return Promise.all(tasks);
   };
@@ -97,7 +113,15 @@ function App() {
       
       await Promise.all([
         preloadMedia(mediaUrls),
-        wait(20000),
+      
+        preloadAudio([
+          "/audio/cozy.mp3",
+          "/audio/night.mp3",
+          "/audio/hover.mp3",
+          "/audio/key.mp3",
+        ]),
+      
+        wait(15000),
       ]);
   
       setRoomData({
