@@ -17,6 +17,37 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [roomData, setRoomData] = useState(null);
 
+  const preloadMedia = (urls) => {
+    const tasks = urls.map((url) => {
+      return new Promise((resolve) => {
+        if (!url) {
+          resolve();
+          return;
+        }
+  
+        const lowerUrl = url.toLowerCase();
+  
+        if (
+          lowerUrl.endsWith(".jpg") ||
+          lowerUrl.endsWith(".jpeg") ||
+          lowerUrl.endsWith(".png") ||
+          lowerUrl.endsWith(".webp") ||
+          lowerUrl.endsWith(".heic")
+        ) {
+          const img = new Image();
+  
+          img.onload = resolve;
+          img.onerror = resolve;
+          img.src = url;
+        } else {
+          resolve();
+        }
+      });
+    });
+  
+    return Promise.all(tasks);
+  };
+
   const handleEnterRoom = async () => {
     setLoading(true);
   
@@ -38,6 +69,16 @@ function App() {
         api.get("/Memories/cat"),
         api.get("/Memories/board"),
       ]);
+
+      const mediaUrls = [
+        ...guitarRes.data.map((item) => item.imageUrl),
+        ...photosRes.data.map((item) => item.imageUrl),
+        ...computerRes.data.map((item) => item.imageUrl),
+        ...catRes.data.map((item) => item.imageUrl),
+        ...boardRes.data.map((item) => item.imageUrl),
+      ];
+      
+      await preloadMedia(mediaUrls);
   
       setRoomData({
         guitarMemories: guitarRes.data,
