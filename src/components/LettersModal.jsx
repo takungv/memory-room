@@ -63,7 +63,7 @@ function LettersModal({ open, onClose, letters = [] }) {
                 className={activeTab === "apology" ? "active-tab" : ""}
                 onClick={() => setActiveTab("apology")}
               >
-                ถึงคุณในตอนนี้
+                ถึงเธอในตอนนี้
               </button>
 
               <button
