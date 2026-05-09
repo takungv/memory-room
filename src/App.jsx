@@ -19,7 +19,7 @@ function App() {
 
   const handleEnterRoom = async () => {
     setLoading(true);
-
+  
     try {
       const [
         guitarRes,
@@ -38,7 +38,7 @@ function App() {
         api.get("/Memories/cat"),
         api.get("/Memories/board"),
       ]);
-
+  
       setRoomData({
         guitarMemories: guitarRes.data,
         letters: lettersRes.data,
@@ -48,14 +48,15 @@ function App() {
         catMemories: catRes.data,
         boardMemories: boardRes.data,
       });
-
-      setTimeout(() => {
-        setEntered(true);
-        setLoading(false);
-      }, 2200);
+  
+      // โหลดครบแล้วค่อยเข้า
+      setEntered(true);
+      setLoading(false);
+  
     } catch {
       setLoading(false);
-      alert("โหลดข้อมูลไม่สำเร็จ ลองเข้าใหม่อีกครั้งนะครับ");
+  
+      alert("โหลดข้อมูลไม่สำเร็จ");
     }
   };
 
