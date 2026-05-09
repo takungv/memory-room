@@ -20,7 +20,7 @@ function LettersModal({ open, onClose, letters = [] }) {
   const playLetterSound = () => {
     const audio = new Audio("/audio/letter-open.mp3");
   
-    audio.volume = 0.33;
+    audio.volume = 0.8;
   
     audio.currentTime = 1.4;
   
