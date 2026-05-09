@@ -34,21 +34,22 @@ function App() {
   const preloadMedia = (urls) => {
     const tasks = urls.map((url) => {
       return new Promise((resolve) => {
-        const finalUrl = getPublicUrl(url);
-  
-        if (!finalUrl) {
+        if (!url) {
           resolve();
           return;
         }
   
+        const finalUrl = getPublicUrl(url);
         const lowerUrl = finalUrl.toLowerCase();
   
+        // =========================
+        // IMAGE
+        // =========================
         if (
           lowerUrl.endsWith(".jpg") ||
           lowerUrl.endsWith(".jpeg") ||
           lowerUrl.endsWith(".png") ||
-          lowerUrl.endsWith(".webp") ||
-          lowerUrl.endsWith(".heic")
+          lowerUrl.endsWith(".webp")
         ) {
           const img = new Image();
   
@@ -56,9 +57,30 @@ function App() {
           img.onerror = resolve;
   
           img.src = finalUrl;
-        } else {
-          resolve();
+  
+          return;
         }
+  
+        // =========================
+        // VIDEO
+        // =========================
+        if (
+          lowerUrl.endsWith(".mov") ||
+          lowerUrl.endsWith(".mp4")
+        ) {
+          const video = document.createElement("video");
+  
+          video.preload = "metadata";
+  
+          video.onloadeddata = resolve;
+          video.onerror = resolve;
+  
+          video.src = finalUrl;
+  
+          return;
+        }
+  
+        resolve();
       });
     });
   
