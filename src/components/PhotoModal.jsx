@@ -124,6 +124,7 @@ function PhotoModal({ open, onClose, photos = [] }) {
                 playsInline
                 preload="auto"
                 className="preview-media"
+                webkit-playsinline="true"
               />
             ) : (
               <img

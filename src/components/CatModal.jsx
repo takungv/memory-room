@@ -40,6 +40,7 @@ function CatModal({ open, onClose, memories = [] }) {
                       playsInline
                       preload="metadata"
                       className="cat-media"
+                      webkit-playsinline="true"
                     />
                   ) : (
                     <img

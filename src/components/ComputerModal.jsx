@@ -67,6 +67,7 @@ function ComputerModal({ open, onClose, memories = [] }) {
                     src={memory.imageUrl}
                     controls
                     className="computer-media"
+                    webkit-playsinline="true"
                   />
                 ) : (
                   <img
