@@ -4694,3 +4694,18 @@ body {
 
   font-family: "Itim", cursive;
 }
+.room-waiting {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: black;
+  color: rgba(255, 240, 220, 0.7);
+
+  font-family: "Itim", cursive;
+  font-size: 22px;
+}

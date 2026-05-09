@@ -86,6 +86,8 @@ function Room({ roomData }) {
   const [catOpen, setCatOpen] = useState(false);
   const [boardOpen, setBoardOpen] = useState(false);
 
+  const [roomImagesReady, setRoomImagesReady] = useState(false);
+
   const normalPhotos = photos.filter((p) => p.category === "photo");
   const giftPhotos = photos.filter((p) => p.category === "gift");
 
@@ -246,6 +248,24 @@ const loadBoardMemories = async () => {
   
   }, []);
 
+  useEffect(() => {
+    const images = [roomDay, roomNight];
+  
+    Promise.all(
+      images.map((src) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+  
+          img.onload = resolve;
+          img.onerror = resolve;
+          img.src = src;
+        });
+      })
+    ).then(() => {
+      setRoomImagesReady(true);
+    });
+  }, []);
+
   const toggleBackgroundMusic = () => {
     const bgAudio =
       document.getElementById("bg-audio");
@@ -327,7 +347,18 @@ const loadBoardMemories = async () => {
   return (
     
     <div className="room">
-      <div className="room-stage">
+      {!roomImagesReady && (
+        <div className="room-waiting">
+          preparing the room...
+        </div>
+      )}
+      <div
+          className="room-stage"
+          style={{
+            opacity: roomImagesReady ? 1 : 0,
+            pointerEvents: roomImagesReady ? "auto" : "none",
+          }}
+        >
       <div className="room-particles">
         {[...Array(28)].map((_, i) => (
           <span
