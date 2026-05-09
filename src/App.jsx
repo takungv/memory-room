@@ -61,22 +61,23 @@ function App() {
         }
       });
     });
-    const preloadAudio = (urls) => {
-      const tasks = urls.map((url) => {
-        return new Promise((resolve) => {
-          const audio = new Audio();
-    
-          audio.src = url;
-    
-          audio.oncanplaythrough = resolve;
-          audio.onerror = resolve;
-    
-          audio.load();
-        });
+  
+    return Promise.all(tasks);
+  };
+  
+  const preloadAudio = (urls) => {
+    const tasks = urls.map((url) => {
+      return new Promise((resolve) => {
+        const audio = new Audio();
+  
+        audio.src = url;
+  
+        audio.oncanplaythrough = resolve;
+        audio.onerror = resolve;
+  
+        audio.load();
       });
-    
-      return Promise.all(tasks);
-    };
+    });
   
     return Promise.all(tasks);
   };
