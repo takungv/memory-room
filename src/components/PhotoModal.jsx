@@ -59,12 +59,16 @@ function PhotoModal({ open, onClose, photos = [] }) {
                 <video
                   src={photo.imageUrl}
                   muted
+                  playsInline
+                  preload="metadata"
                   className="polaroid-media"
                 />
               ) : (
                 <img
                   src={photo.imageUrl}
                   alt=""
+                  loading="lazy"
+                  decoding="async"
                   className="polaroid-media"
                 />
               )}
@@ -103,6 +107,8 @@ function PhotoModal({ open, onClose, photos = [] }) {
                 src={selectedPhoto.imageUrl}
                 controls
                 autoPlay
+                playsInline
+                preload="auto"
                 className="preview-media"
               />
             ) : (
