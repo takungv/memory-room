@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function PhotoModal({ open, onClose, photos = [] }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [photoLoading, setPhotoLoading] = useState(false);
 
   const isVideo = (url) => {
     return (
@@ -20,10 +21,39 @@ function PhotoModal({ open, onClose, photos = [] }) {
         0
     ).getTime();
   };
+  const preloadPhotos = async () => {
+    setPhotoLoading(true);
+  
+    const imagePromises = photos.map((photo) => {
+      return new Promise((resolve) => {
+        if (isVideo(photo.imageUrl)) {
+          resolve();
+          return;
+        }
+  
+        const img = new Image();
+  
+        img.src = photo.imageUrl;
+  
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    });
+  
+    await Promise.all(imagePromises);
+  
+    setPhotoLoading(false);
+  };
 
   const sortedPhotos = [...photos].sort(
     (a, b) => getDate(a) - getDate(b)
   );
+
+  useEffect(() => {
+    if (open) {
+      preloadPhotos();
+    }
+  }, [open]);
 
   return (
     <div
@@ -49,6 +79,11 @@ function PhotoModal({ open, onClose, photos = [] }) {
           </p>
         </div>
 
+        {photoLoading ? (
+        <div className="photo-loading">
+          loading memories...
+        </div>
+      ) : (
         <div className="photo-grid">
           {sortedPhotos.map((photo) => (
             <div
@@ -88,8 +123,13 @@ function PhotoModal({ open, onClose, photos = [] }) {
               </p>
             </div>
           ))}
+      
         </div>
+        )}
+      
       </div>
+    
+
 
       {selectedPhoto && (
         <div

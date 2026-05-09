@@ -4678,3 +4678,19 @@ body {
 .modal-show {
   display: flex;
 }
+
+.photo-loading {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 120px 0;
+
+  color: rgba(255,255,255,0.6);
+
+  font-size: 22px;
+
+  font-family: "Itim", cursive;
+}
