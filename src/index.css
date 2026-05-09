@@ -4709,3 +4709,47 @@ body {
   font-family: "Itim", cursive;
   font-size: 22px;
 }
+
+.photo-media-wrapper {
+  position: relative;
+}
+
+.photo-skeleton {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04),
+      rgba(255,255,255,0.08),
+      rgba(255,255,255,0.04)
+    );
+
+  animation: photoShimmer 1.4s infinite;
+}
+
+.polaroid-media {
+  position: relative;
+  z-index: 2;
+
+  opacity: 0;
+
+  transition: opacity 0.4s ease;
+}
+
+@keyframes photoShimmer {
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
