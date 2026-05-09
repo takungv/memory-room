@@ -1,4 +1,6 @@
 import { useState } from "react";
+import api from "./services/api";
+
 import {
   BrowserRouter,
   Routes,
@@ -13,14 +15,48 @@ import LoadingScreen from "./pages/LoadingScreen";
 function App() {
   const [entered, setEntered] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [roomData, setRoomData] = useState(null);
 
-  const handleEnterRoom = () => {
+  const handleEnterRoom = async () => {
     setLoading(true);
 
-    setTimeout(() => {
-      setEntered(true);
+    try {
+      const [
+        guitarRes,
+        lettersRes,
+        songsRes,
+        photosRes,
+        computerRes,
+        catRes,
+        boardRes,
+      ] = await Promise.all([
+        api.get("/Memories/guitar"),
+        api.get("/Letters"),
+        api.get("/Songs"),
+        api.get("/Photos"),
+        api.get("/Memories/computer"),
+        api.get("/Memories/cat"),
+        api.get("/Memories/board"),
+      ]);
+
+      setRoomData({
+        guitarMemories: guitarRes.data,
+        letters: lettersRes.data,
+        songs: songsRes.data,
+        photos: photosRes.data,
+        computerMemories: computerRes.data,
+        catMemories: catRes.data,
+        boardMemories: boardRes.data,
+      });
+
+      setTimeout(() => {
+        setEntered(true);
+        setLoading(false);
+      }, 2200);
+    } catch {
       setLoading(false);
-    }, 2200);
+      alert("โหลดข้อมูลไม่สำเร็จ ลองเข้าใหม่อีกครั้งนะครับ");
+    }
   };
 
   return (
@@ -44,7 +80,7 @@ function App() {
           element={
             entered ? (
               <div className="page-fade-in">
-                <Room />
+                <Room roomData={roomData} />
               </div>
             ) : (
               <Navigate to="/" />

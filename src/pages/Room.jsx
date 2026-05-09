@@ -39,7 +39,7 @@ import CatModal from "../components/CatModal";
 import GiftModal from "../components/GiftModal";
 import BoardModal from "../components/BoardModal";
 
-function Room() {
+function Room({ roomData }) {
 
   const [endingMode, setEndingMode] = useState(false);
 
@@ -49,13 +49,33 @@ function Room() {
   const [bgMusicOn, setBgMusicOn] = useState(false);
   const [nightMode, setNightMode] = useState(false);
 
-  const [guitarMemories, setGuitarMemories] = useState([]);
-  const [letters, setLetters] = useState([]);
-  const [songs, setSongs] = useState([]);
-  const [photos, setPhotos] = useState([]);
-  const [computerMemories, setComputerMemories] = useState([]);
-  const [catMemories, setCatMemories] = useState([]);
-  const [boardMemories, setBoardMemories] = useState([]);
+  const [guitarMemories, setGuitarMemories] = useState(
+    roomData?.guitarMemories || []
+  );
+  
+  const [letters, setLetters] = useState(
+    roomData?.letters || []
+  );
+  
+  const [songs, setSongs] = useState(
+    roomData?.songs || []
+  );
+  
+  const [photos, setPhotos] = useState(
+    roomData?.photos || []
+  );
+  
+  const [computerMemories, setComputerMemories] = useState(
+    roomData?.computerMemories || []
+  );
+  
+  const [catMemories, setCatMemories] = useState(
+    roomData?.catMemories || []
+  );
+  
+  const [boardMemories, setBoardMemories] = useState(
+    roomData?.boardMemories || []
+  );
 
   const [guitarOpen, setGuitarOpen] = useState(false);
   const [lettersOpen, setLettersOpen] = useState(false);
@@ -554,7 +574,9 @@ const loadBoardMemories = async () => {
           src={nightMode ? letterHitbox_night : letterHitbox_day}
           alt=""
           className="object-hover"
-          onClick={() => setLettersOpen(true)}
+          onClick={async () => {
+            await loadLetters();
+            setLettersOpen(true)}}
         />
       </div>
 
