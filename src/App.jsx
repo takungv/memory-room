@@ -97,7 +97,7 @@ function App() {
       
       await Promise.all([
         preloadMedia(mediaUrls),
-        wait(15000),
+        wait(20000),
       ]);
   
       setRoomData({
