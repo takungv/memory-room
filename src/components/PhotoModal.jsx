@@ -3,8 +3,6 @@ import { useState } from "react";
 function PhotoModal({ open, onClose, photos = [] }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  if (!open) return null;
-
   const isVideo = (url) => {
     return (
       url?.toLowerCase().endsWith(".mp4") ||
@@ -28,7 +26,10 @@ function PhotoModal({ open, onClose, photos = [] }) {
   );
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div
+        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+        onClick={onClose}
+      >
       <div
         className="photo-card"
         onClick={(e) => e.stopPropagation()}

@@ -22,10 +22,12 @@ function GuitarModal({ open, onClose, memories }) {
     };
   }, [open]);
 
-  if (!open) return null;
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div
+        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+        onClick={onClose}
+      >
       <div
         className="modal-card guitar-card"
         onClick={(e) => e.stopPropagation()}

@@ -3,8 +3,6 @@ import { useState } from "react";
 function CatModal({ open, onClose, memories = [] }) {
   const [preview, setPreview] = useState(null);
 
-  if (!open) return null;
-
   const isVideo = (url) => {
     return (
       url?.toLowerCase().endsWith(".mp4") ||
@@ -15,7 +13,10 @@ function CatModal({ open, onClose, memories = [] }) {
 
   return (
     <>
-      <div className="modal-backdrop" onClick={onClose}>
+      <div
+        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+        onClick={onClose}
+      >
         <div className="cat-card" onClick={(e) => e.stopPropagation()}>
           <h1>🐾 Her & The Cat</h1>
 
@@ -37,12 +38,15 @@ function CatModal({ open, onClose, memories = [] }) {
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                       className="cat-media"
                     />
                   ) : (
                     <img
                       src={memory.imageUrl}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
                       className="cat-media"
                     />
                   )}
@@ -77,6 +81,8 @@ function CatModal({ open, onClose, memories = [] }) {
                 src={preview.imageUrl}
                 controls
                 autoPlay
+                playsInline
+                preload="auto"
                 className="preview-media"
               />
             ) : (

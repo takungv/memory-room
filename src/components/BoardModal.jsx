@@ -3,8 +3,6 @@ import { useState } from "react";
 function BoardModal({ open, onClose, boards = [] }) {
   const [selectedBoard, setSelectedBoard] = useState(null);
 
-  if (!open) return null;
-
   const getDate = (board) => {
     return new Date(
       board.createAt || board.createdAt || 0
@@ -17,7 +15,10 @@ function BoardModal({ open, onClose, boards = [] }) {
 
   return (
     <>
-      <div className="modal-backdrop" onClick={onClose}>
+      <div
+          className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+          onClick={onClose}
+        >
         <div
           className="board-card"
           onClick={(e) => e.stopPropagation()}

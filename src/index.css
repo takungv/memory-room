@@ -4670,3 +4670,11 @@ body {
   text-shadow:
     0 0 10px rgba(255, 220, 180, 0.04);
 }
+
+.modal-hide {
+  display: none !important;
+}
+
+.modal-show {
+  display: flex;
+}

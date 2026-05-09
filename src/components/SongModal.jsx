@@ -4,12 +4,13 @@ function SongModal({ open, onClose, songs }) {
   const [activeTab, setActiveTab] = useState("her_playlist");
   const [selectedSongId, setSelectedSongId] = useState(null);
 
-  if (!open) return null;
-
   const visibleSongs = songs.filter((song) => song.category === activeTab);
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div
+        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+        onClick={onClose}
+      >
       <div className="song-card" onClick={(e) => e.stopPropagation()}>
         <p className="song-label">music always remembers people</p>
         <div className="song-top">

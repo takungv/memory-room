@@ -3,7 +3,6 @@ import { useState } from "react";
 function GiftModal({ open, onClose, photos = [] }) {
   const [preview, setPreview] = useState(null);
 
-  if (!open) return null;
 
   const isVideo = (url) => {
     return (
@@ -27,7 +26,10 @@ function GiftModal({ open, onClose, photos = [] }) {
 
   return (
     <>
-      <div className="modal-backdrop" onClick={onClose}>
+      <div
+          className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+          onClick={onClose}
+        >
         <div className="gift-card" onClick={(e) => e.stopPropagation()}>
           <h1>Pieces of Her, Still Here</h1>
 

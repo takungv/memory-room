@@ -5,8 +5,6 @@ function LettersModal({ open, onClose, letters = [] }) {
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [activeTab, setActiveTab] = useState("apology");
 
-  if (!open) return null;
-
   const visibleLetters = [...letters]
     .filter((letter) => letter.category === activeTab)
     .sort(
@@ -39,7 +37,11 @@ function LettersModal({ open, onClose, letters = [] }) {
   };
 
   return (
-    <div className="modal-backdrop" onClick={closeModal}>
+    
+    <div
+        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+        onClick={onClose}
+      >
       <div
         className={
           activeTab === "if_someday"

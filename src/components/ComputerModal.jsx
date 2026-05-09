@@ -4,7 +4,6 @@ import MemoryGame from "./MemoryGame";
 function ComputerModal({ open, onClose, memories = [] }) {
   const [activeTab, setActiveTab] = useState("memories");
 
-  if (!open) return null;
 
   const isVideo = (url) => {
     return (
@@ -31,7 +30,10 @@ function ComputerModal({ open, onClose, memories = [] }) {
   );
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div
+        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
+        onClick={onClose}
+      >
       <div className="computer-card" onClick={(e) => e.stopPropagation()}>
         <h1>Late Nights & Loading Screens</h1>
 
