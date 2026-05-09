@@ -242,7 +242,7 @@ function Room() {
   const playHoverSound = () => {
     const audio = new Audio("/audio/hover.mp3");
   
-    audio.volume = 0.10;
+    audio.volume = 0.3;
     audio.currentTime = 0;
   
     audio.play();

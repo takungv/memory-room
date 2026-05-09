@@ -41,7 +41,7 @@ function Entrance({ onEnter }) {
     const audio = new Audio("/audio/key.mp3");
 
     audio.volume = 1;
-    audio.currentTime = 0.098;
+    audio.currentTime = 0.09;
 
     audio.play();
 
