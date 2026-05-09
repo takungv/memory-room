@@ -17,15 +17,27 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [roomData, setRoomData] = useState(null);
 
+  const getPublicUrl = (url) => {
+    if (!url) return "";
+  
+    if (url.startsWith("http")) {
+      return url;
+    }
+  
+    return `${window.location.origin}${url}`;
+  };
+  
   const preloadMedia = (urls) => {
     const tasks = urls.map((url) => {
       return new Promise((resolve) => {
-        if (!url) {
+        const finalUrl = getPublicUrl(url);
+  
+        if (!finalUrl) {
           resolve();
           return;
         }
   
-        const lowerUrl = url.toLowerCase();
+        const lowerUrl = finalUrl.toLowerCase();
   
         if (
           lowerUrl.endsWith(".jpg") ||
@@ -38,7 +50,8 @@ function App() {
   
           img.onload = resolve;
           img.onerror = resolve;
-          img.src = url;
+  
+          img.src = finalUrl;
         } else {
           resolve();
         }
