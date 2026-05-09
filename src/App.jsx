@@ -17,6 +17,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [roomData, setRoomData] = useState(null);
 
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
+
   const wait = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
@@ -83,6 +85,17 @@ function App() {
   };
 
   const handleEnterRoom = async () => {
+
+    const unlockAudio = new Audio("/audio/cozy.mp3");
+  
+    unlockAudio.volume = 0;
+  
+    try {
+      await unlockAudio.play();
+  
+      unlockAudio.pause();
+    } catch {}
+  
     setLoading(true);
   
     try {
