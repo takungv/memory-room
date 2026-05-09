@@ -17,6 +17,10 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [roomData, setRoomData] = useState(null);
 
+  const wait = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
   const getPublicUrl = (url) => {
     if (!url) return "";
   
@@ -91,7 +95,10 @@ function App() {
         ...boardRes.data.map((item) => item.imageUrl),
       ];
       
-      await preloadMedia(mediaUrls);
+      await Promise.all([
+        preloadMedia(mediaUrls),
+        wait(10000),
+      ]);
   
       setRoomData({
         guitarMemories: guitarRes.data,
