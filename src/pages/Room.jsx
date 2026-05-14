@@ -92,6 +92,7 @@ function Room({ roomData }) {
   const [boardOpen, setBoardOpen] = useState(false);
 
   const [roomImagesReady, setRoomImagesReady] = useState(false);
+  const [welcomeMessage, setWelcomeMessage] = useState(true);
 
   const normalPhotos = photos.filter((p) => p.category === "photo");
   const giftPhotos = photos.filter((p) => p.category === "gift");
@@ -271,6 +272,14 @@ const loadBoardMemories = async () => {
     });
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setWelcomeMessage(false);
+    }, 15000);
+  
+    return () => clearTimeout(timer);
+  }, []);
+
   const toggleBackgroundMusic = () => {
     const bgAudio =
       document.getElementById("bg-audio");
@@ -355,6 +364,40 @@ const loadBoardMemories = async () => {
       {!roomImagesReady && (
         <div className="room-waiting">
           preparing the room...
+        </div>
+        
+      )}
+      {welcomeMessage && (
+        <div className="welcome-overlay">
+          <div className="welcome-box">
+            <p className="welcome-small">
+              before you stay here for a while...
+            </p>
+
+            <h1>
+              เค้ารู้ว่าตอนนี้เธอกำลังรู้สึกไม่ดี
+              <br />
+              เค้าทำให้เธอไม่สบายใจเลยนะ
+            </h1>
+
+            <p className="welcome-text">
+              เค้าอยากบอกเธอว่าเค้าขอโทษนะครับ
+              <br />
+              ที่ผ่านมาเค้าทำตัวแย่ๆกับเธอมาเยอะ
+              <br />
+              เค้าอยากบอกว่า เค้าเสียใจจริงๆนะครับ
+              <br />
+              เค้าอยากจะทำให้เธอมีความสุข
+              <br />
+              แล้วก็จะดูแลให้ดีเท่าที่เค้าจะทำได้
+            </p>
+
+            <p className="welcome-end">
+              แล้วข้อความนี้...
+              <br />
+              เค้าเก็บไว้ในกล่องจดหมายแล้วนะ 🤍
+            </p>
+          </div>
         </div>
       )}
       <div

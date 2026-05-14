@@ -10,6 +10,7 @@ import {
 import Entrance from "./pages/Entrance";
 import Room from "./pages/Room";
 import LoadingScreen from "./pages/LoadingScreen";
+import Admin from "./pages/Admin";
 
 function App() {
   const [entered, setEntered] = useState(false);
@@ -18,7 +19,6 @@ function App() {
   const handleEnterRoom = async () => {
     setLoading(true);
 
-    // ทำ loading transition เล็กน้อย
     setTimeout(() => {
       setEntered(true);
       setLoading(false);
@@ -28,6 +28,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* หน้าแรก */}
         <Route
           path="/"
           element={
@@ -41,6 +43,7 @@ function App() {
           }
         />
 
+        {/* ห้อง */}
         <Route
           path="/room"
           element={
@@ -53,6 +56,20 @@ function App() {
             )
           }
         />
+
+        {/* Admin */}
+        <Route
+          path="/admin"
+          element={
+            <div className="page-fade-in">
+              <Admin />
+            </div>
+          }
+        />
+
+        {/* กัน route แปลก */}
+        <Route path="*" element={<Navigate to="/" />} />
+
       </Routes>
     </BrowserRouter>
   );
