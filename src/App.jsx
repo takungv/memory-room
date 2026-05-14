@@ -1,5 +1,4 @@
 import { useState } from "react";
-import api from "./services/api";
 
 import {
   BrowserRouter,
@@ -13,24 +12,50 @@ import Room from "./pages/Room";
 import LoadingScreen from "./pages/LoadingScreen";
 
 function App() {
+  const [entered, setEntered] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleEnterRoom = async () => {
+    setLoading(true);
+
+    // ทำ loading transition เล็กน้อย
+    setTimeout(() => {
+      setEntered(true);
+      setLoading(false);
+    }, 1200);
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
-          element={<Navigate to="/room" />}
+          element={
+            loading ? (
+              <LoadingScreen />
+            ) : entered ? (
+              <Navigate to="/room" />
+            ) : (
+              <Entrance onEnter={handleEnterRoom} />
+            )
+          }
         />
 
         <Route
           path="/room"
           element={
-            <div className="page-fade-in">
-              <Room />
-            </div>
+            entered ? (
+              <div className="page-fade-in">
+                <Room />
+              </div>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
       </Routes>
     </BrowserRouter>
   );
 }
+
 export default App;
