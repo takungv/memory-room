@@ -1,34 +1,39 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 
-import roomDay from "../assets/light.png";
-import roomNight from "../assets/night.png";
+const cozyAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768724/cozy_znbc51.mp3"
+const nightAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768848/night_nymfzi.mp3"
 
-import guitarHitbox from "../assets/guitar-hitbox-light.png";
+const hoverAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778769050/hover_xk4vxd.mp3"
 
-import modeHitbox_day from "../assets/mode-hitbox-day.png";
-import modeHitbox_night from "../assets/mode-hitbox-night.png";
+const roomDay =  "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/light_m0a890.png"
+const roomNight = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1778765108/night_wndh4z.png"
 
-import songHitbox_day from "../assets/song-hitbox-day.png";
-import songHitbox_night from "../assets/song-hitbox-night.png";
+const guitarHitbox = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765158/guitar-hitbox-light_igspyv.png"
 
-import giftHitbox_day from "../assets/giftHitbox-day.png";
-import giftHitbox_night from "../assets/giftHitbox-night.png";
+const modeHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765107/mode-hitbox-day_d1dkwp.png"
+const modeHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/mode-hitbox-night_hhpdi2.png"
 
-import letterHitbox_day from "../assets/letterHitbox-day.png";
-import letterHitbox_night from "../assets/letterHitbox-night.png";
+const songHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765107/song-hitbox-day_obtnhz.png"
+const songHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765108/song-hitbox-night_luscdf.png"
 
-import photoHitbox_day from "../assets/photoHitbox-day.png";
-import photoHitbox_night from "../assets/photoHitbox-night.png";
+const giftHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765105/giftHitbox-day_jrjeeb.png"
+const giftHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765105/giftHitbox-night_ecc8wi.png"
 
-import computerHitbox_day from "../assets/computerHitbox-day.png";
-import computerHitbox_night from "../assets/computerHitbox-night.png";
+const letterHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765105/letterHitbox-day_ykwzqp.png"
+const letterHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765105/letterHitbox-night_j4m3xl.png"
 
-import catHitbox_day from "../assets/catHitbox-day.png";
-import catHitbox_night from "../assets/catHitbox-night.png";
+const photoHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765107/photoHitbox-day_f9xcmp.png"
+const photoHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765107/photoHitbox-night_t4irwa.png"
 
-import boardHitbox_day from "../assets/boardHitbox-day.png";
-import boardHitbox_night from "../assets/boardHitbox-night.png";
+const computerHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/computerHitbox-day_ynuocj.png"
+const computerHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/computerHitbox-night_skb2lh.png"
+
+const catHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/catHitbox-day_hjcvbg.png"
+const catHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/catHitbox-night_cxxzzp.png"
+
+const boardHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765104/boardHitbox-day_rlsean.png"
+const boardHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/boardHitbox-night_btwewl.png"
 
 import GuitarModal from "../components/GuitarModal";
 import LettersModal from "../components/LettersModal";
@@ -305,7 +310,7 @@ const loadBoardMemories = async () => {
   };
 
   const playHoverSound = () => {
-    const audio = new Audio("/audio/hover.mp3");
+    const audio = new Audio(hoverAudio);
   
     audio.volume = 0.3;
     audio.currentTime = 0;
@@ -392,14 +397,14 @@ const loadBoardMemories = async () => {
       {/* AUDIO */}
       <audio
         id="bg-audio"
-        src="/audio/cozy.mp3"
+        src={cozyAudio}
         loop
         autoPlay
       />
 
       <audio
         id="night-ambient"
-        src="/audio/night.mp3"
+        src={nightAudio}
         loop
       />
 

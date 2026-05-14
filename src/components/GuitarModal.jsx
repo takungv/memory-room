@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react";
 
+const guitaHoverAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768687/guitar-hover_aqtgoa.mp3"
+
 function GuitarModal({ open, onClose, memories }) {
   const guitarAudioRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
 
-    const audio = new Audio("/audio/guitar-hover.mp3");
+    const audio = new Audio(guitaHoverAudio);
 
     audio.volume = 0.08;
 

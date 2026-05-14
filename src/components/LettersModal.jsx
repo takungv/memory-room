@@ -1,6 +1,8 @@
 import { useState } from "react";
 import TypewriterText from "./TypewriterText";
 
+const letterAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768665/letter-open_w9fprw.mp3"
+
 function LettersModal({ open, onClose, letters = [] }) {
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [activeTab, setActiveTab] = useState("apology");
@@ -18,7 +20,7 @@ function LettersModal({ open, onClose, letters = [] }) {
     onClose();
   };
   const playLetterSound = () => {
-    const audio = new Audio("/audio/letter-open.mp3");
+    const audio = new Audio(letterAudio);
   
     audio.volume = 0.8;
   

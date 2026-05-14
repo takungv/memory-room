@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const keyAudio =
+  "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768682/key_y8i8ri.mp3";
 
 function Entrance({ onEnter }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [hintIndex, setHintIndex] = useState(0);
+
+  const audioRef = useRef(null);
 
   const SECRET_CODES = [
     "love",
@@ -15,7 +20,7 @@ function Entrance({ onEnter }) {
     "บี๋",
     "ที่รัก",
     "เค้ารักเธอ",
-    "รัก"
+    "รัก",
   ];
 
   const hints = [
@@ -28,23 +33,33 @@ function Entrance({ onEnter }) {
   ];
 
   useEffect(() => {
+    audioRef.current = new Audio(keyAudio);
+
+    audioRef.current.volume = 1;
+    audioRef.current.preload = "auto";
+
     const interval = setInterval(() => {
       setHintIndex((prev) =>
         prev === hints.length - 1 ? 0 : prev + 1
       );
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, []);
 
   const playKeySound = () => {
-    const audio = new Audio("/audio/key.mp3");
+    if (!audioRef.current) return;
 
-    audio.volume = 1;
-    audio.currentTime = 0.09;
+    audioRef.current.currentTime = 0.09;
 
-    audio.play();
-
+    audioRef.current.play().catch(() => {});
   };
 
   const handleEnter = () => {
@@ -88,6 +103,7 @@ function Entrance({ onEnter }) {
           value={password}
           onChange={(e) => {
             playKeySound();
+
             setPassword(e.target.value);
             setError("");
           }}
