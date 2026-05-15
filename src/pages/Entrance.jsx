@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const keyAudio =
-  "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768682/key_y8i8ri.mp3";
+  "/auido/key.mp3";
 
 function Entrance({ onEnter }) {
   const [password, setPassword] = useState("");
