@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const keyAudio =
-  "/auido/key.mp3";
+  "/audio/key.mp3";
 
 function Entrance({ onEnter }) {
   const [password, setPassword] = useState("");
@@ -54,12 +54,27 @@ function Entrance({ onEnter }) {
     };
   }, []);
 
+  const unlockAudio = async () => {
+    if (!audioRef.current) return;
+  
+    try {
+      await audioRef.current.play();
+  
+      audioRef.current.pause();
+  
+      audioRef.current.currentTime = 0;
+    } catch {}
+  };
+
   const playKeySound = () => {
     if (!audioRef.current) return;
-
-    audioRef.current.currentTime = 0.09;
-
-    audioRef.current.play().catch(() => {});
+  
+    const sound = audioRef.current.cloneNode();
+  
+    sound.volume = 0.5;
+    sound.currentTime = 0.1;
+  
+    sound.play().catch(() => {});
   };
 
   const handleEnter = () => {
@@ -101,6 +116,10 @@ function Entrance({ onEnter }) {
           type="text"
           placeholder="ใส่รหัสของเรา"
           value={password}
+
+          onClick={unlockAudio}
+          onTouchStart={unlockAudio}
+
           onChange={(e) => {
             playKeySound();
 
