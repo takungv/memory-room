@@ -94,9 +94,9 @@ function PhotoModal({ open, onClose, photos = [] }) {
               <p className="photo-date">
                 {new Date(
                   photo.createAt ||
-                  photo.createdAt ||
-                  photo.CreateAt ||
-                  photo.CreatedAt
+                    photo.createdAt ||
+                    photo.CreateAt ||
+                    photo.CreatedAt
                 ).toLocaleDateString()}
               </p>
             </div>
