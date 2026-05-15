@@ -42,7 +42,7 @@ function LettersModal({ open, onClose, letters = [] }) {
     
     <div
         className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
-        onClick={onClose}
+        onClick={closeModal}
       >
       <div
         className={
@@ -127,6 +127,23 @@ function LettersModal({ open, onClose, letters = [] }) {
               </p>
 
               <TypewriterText text={selectedLetter.content} />
+
+              {selectedLetter.pdfUrl?.trim() ? (
+                <img
+                  src={selectedLetter.pdfUrl}
+                  alt="letter"
+                  style={{
+                    width: "100%",
+                    marginTop: "20px",
+                    borderRadius: "12px",
+                    display: "block"
+                  }}
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
+              ) : null}
+
             </div>
           </div>
         )}

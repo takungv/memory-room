@@ -60,12 +60,16 @@ function PhotoModal({ open, onClose, photos = [] }) {
             >
               {isVideo(photo.imageUrl) ? (
                 <video
-                  src={photo.imageUrl}
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className="polaroid-media"
-                />
+                src={photo.imageUrl}
+                muted
+                playsInline
+                controls
+                preload="auto"
+                className="polaroid-media"
+                onError={(e) => {
+                  console.log("video failed:", e);
+                }}
+              />
               ) : (
                 <div className="photo-media-wrapper">
                   <div className="photo-skeleton" />
@@ -90,9 +94,9 @@ function PhotoModal({ open, onClose, photos = [] }) {
               <p className="photo-date">
                 {new Date(
                   photo.createAt ||
-                    photo.createdAt ||
-                    photo.CreateAt ||
-                    photo.CreatedAt
+                  photo.createdAt ||
+                  photo.CreateAt ||
+                  photo.CreatedAt
                 ).toLocaleDateString()}
               </p>
             </div>
