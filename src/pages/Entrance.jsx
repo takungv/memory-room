@@ -71,7 +71,7 @@ function Entrance({ onEnter }) {
   
     const sound = audioRef.current.cloneNode();
   
-    sound.volume = 0.5;
+    sound.volume = 1;
     sound.currentTime = 0.1;
   
     sound.play().catch(() => {});
