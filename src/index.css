@@ -4857,3 +4857,54 @@ body {
     opacity: 1;
   }
 }
+
+
+
+.room-transition {
+  position: fixed;
+  inset: 0;
+
+  z-index: 999999;
+
+  background: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: fadeToBlack 1.8s forwards;
+}
+
+.room-transition p {
+  font-family: "Itim", cursive;
+
+  color: rgba(255,255,255,0.72);
+
+  font-size: 1.2rem;
+
+  letter-spacing: 2px;
+
+  animation: transitionText 1.5s ease;
+}
+
+@keyframes fadeToBlack {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes transitionText {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

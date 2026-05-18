@@ -11,6 +11,7 @@ import Entrance from "./pages/Entrance";
 import Room from "./pages/Room";
 import LoadingScreen from "./pages/LoadingScreen";
 import Admin from "./pages/Admin";
+import SecretRoom from "./pages/SecretRoom";
 
 function App() {
   const [entered, setEntered] = useState(false);
@@ -65,6 +66,11 @@ function App() {
               <Admin />
             </div>
           }
+        />
+
+        <Route
+          path="/secret-room"
+          element={<SecretRoom />}
         />
 
         {/* กัน route แปลก */}

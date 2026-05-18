@@ -1,30 +1,43 @@
 import { useEffect, useState } from "react";
 
-function TypewriterText({ text, speed = 25 }) {
-  const [displayedText, setDisplayedText] = useState("");
+function TypewriterText({ text, speed = 40 }) {
+  const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
-    setDisplayedText("");
+    setDisplayed("");
 
-    let index = 0;
+    let i = 0;
 
-    const interval = setInterval(() => {
-      setDisplayedText(text.slice(0, index));
+    const getDelay = (char) => {
+      if (char === "\n") return 400;   // เว้นบรรทัด = คิด
+      if (char === ".") return 350;    // จบประโยค = หยุดคิด
+      if (char === ",") return 200;    // เว้นจังหวะ
+      return speed;
+    };
 
-      index++;
+    let timeout;
 
-      if (index > text.length) {
-        clearInterval(interval);
-      }
-    }, speed);
+    const type = () => {
+      if (i >= text.length) return;
 
-    return () => clearInterval(interval);
+      const char = text[i];
+
+      setDisplayed((prev) => prev + char);
+
+      i++;
+
+      timeout = setTimeout(type, getDelay(char));
+    };
+
+    type();
+
+    return () => clearTimeout(timeout);
   }, [text, speed]);
 
   return (
     <p className="letter-content">
-        {displayedText}
-        <span className="typing-cursor">|</span>
+      {displayed}
+      <span className="typing-cursor">|</span>
     </p>
   );
 }

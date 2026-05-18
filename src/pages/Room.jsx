@@ -45,6 +45,7 @@ import GiftModal from "../components/GiftModal";
 import BoardModal from "../components/BoardModal";
 
 function Room({ roomData }) {
+  
 
   const [endingMode, setEndingMode] = useState(false);
 

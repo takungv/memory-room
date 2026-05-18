@@ -1,33 +1,64 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TypewriterText from "./TypewriterText";
 
-const letterAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768665/letter-open_w9fprw.mp3"
+const letterAudio =
+  "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768665/letter-open_w9fprw.mp3";
 
-function LettersModal({ open, onClose, letters = [] }) {
-  const [selectedLetter, setSelectedLetter] = useState(null);
-  const [activeTab, setActiveTab] = useState("apology");
+function LettersModal({
+  open,
+  onClose,
+  letters = [],
+}) {
 
-  const visibleLetters = [...letters]
-    .filter((letter) => letter.category === activeTab)
-    .sort(
-      (a, b) =>
-        new Date(a.createdAt || a.createAt).getTime() -
-        new Date(b.createdAt || b.createAt).getTime()
-    );
+  const navigate = useNavigate();
+
+  const [selectedLetter, setSelectedLetter] =
+    useState(null);
+
+  const [activeTab, setActiveTab] =
+    useState("apology");
+
+  const secretLetter = {
+    id: "secret-room",
+    title: "จดหมายที่เค้าไม่กล้าพูดต่อหน้าเธอ",
+    category: "apology",
+    isSecret: true,
+    createdAt: new Date().toISOString(),
+  };
+
+  const visibleLetters = [
+    ...letters.filter(
+      (letter) => letter.category === activeTab
+    ),
+
+    ...(activeTab === "apology"
+      ? [secretLetter]
+      : []),
+  ].sort(
+    (a, b) =>
+      new Date(
+        a.createdAt || a.createAt
+      ).getTime() -
+      new Date(
+        b.createdAt || b.createAt
+      ).getTime()
+  );
 
   const closeModal = () => {
     setSelectedLetter(null);
     onClose();
   };
+
   const playLetterSound = () => {
     const audio = new Audio(letterAudio);
-  
+
     audio.volume = 0.8;
-  
+
     audio.currentTime = 1.4;
-  
+
     audio.play();
-  
+
     const fadeOut = setInterval(() => {
       if (audio.volume > 0.02) {
         audio.volume -= 0.02;
@@ -39,11 +70,12 @@ function LettersModal({ open, onClose, letters = [] }) {
   };
 
   return (
-    
     <div
-        className={`modal-backdrop ${open ? "modal-show" : "modal-hide"}`}
-        onClick={closeModal}
-      >
+      className={`modal-backdrop ${
+        open ? "modal-show" : "modal-hide"
+      }`}
+      onClick={closeModal}
+    >
       <div
         className={
           activeTab === "if_someday"
@@ -64,8 +96,14 @@ function LettersModal({ open, onClose, letters = [] }) {
 
             <div className="letter-tabs">
               <button
-                className={activeTab === "apology" ? "active-tab" : ""}
-                onClick={() => setActiveTab("apology")}
+                className={
+                  activeTab === "apology"
+                    ? "active-tab"
+                    : ""
+                }
+                onClick={() =>
+                  setActiveTab("apology")
+                }
               >
                 ถึงเธอในตอนนี้
               </button>
@@ -76,7 +114,9 @@ function LettersModal({ open, onClose, letters = [] }) {
                     ? "active-tab someday-tab"
                     : "someday-tab"
                 }
-                onClick={() => setActiveTab("if_someday")}
+                onClick={() =>
+                  setActiveTab("if_someday")
+                }
               >
                 If someday...
               </button>
@@ -85,21 +125,43 @@ function LettersModal({ open, onClose, letters = [] }) {
             <div className="letter-envelope-list">
               {visibleLetters.map((letter) => (
                 <button
-                  className="letter-envelope"
+                  key={letter.id || letter._id}
+                  className={`letter-envelope ${
+                    letter.isSecret
+                      ? "secret-envelope"
+                      : ""
+                  }`}
                   onClick={() => {
                     playLetterSound();
+
+                    if (letter.isSecret) {
+
+                      setTimeout(() => {
+                        navigate("/secret-room");
+                      }, 1200);
+
+                      return;
+                    }
+
                     setSelectedLetter(letter);
                   }}
                 >
-                  <span className="envelope-icon">✉</span>
+                  <span className="envelope-icon">
+                    ✉
+                  </span>
 
                   <span>
-                    <strong>{letter.title}</strong>
+                    <strong>
+                      {letter.title}
+                    </strong>
 
                     <small>
-                      {new Date(
-                        letter.createdAt || letter.createAt
-                      ).toLocaleString()}
+                      {letter.isSecret
+                        ? "เปิดเฉพาะตอนที่เธอพร้อมนะ"
+                        : new Date(
+                            letter.createdAt ||
+                              letter.createAt
+                          ).toLocaleString()}
                     </small>
                   </span>
                 </button>
@@ -110,23 +172,32 @@ function LettersModal({ open, onClose, letters = [] }) {
           <div className="letter-open-animation">
             <button
               className="letter-back"
-              onClick={() => setSelectedLetter(null)}
+              onClick={() =>
+                setSelectedLetter(null)
+              }
             >
               ← กลับไปเลือกจดหมาย
             </button>
 
             <div className="opened-letter-paper">
-              <p className="letter-kicker">a letter for you</p>
+              <p className="letter-kicker">
+                a letter for you
+              </p>
 
-              <h1>{selectedLetter.title}</h1>
+              <h1>
+                {selectedLetter.title}
+              </h1>
 
               <p className="letter-date">
                 {new Date(
-                  selectedLetter.createdAt || selectedLetter.createAt
+                  selectedLetter.createdAt ||
+                    selectedLetter.createAt
                 ).toLocaleString()}
               </p>
 
-              <TypewriterText text={selectedLetter.content} />
+              <TypewriterText
+                text={selectedLetter.content}
+              />
 
               {selectedLetter.pdfUrl?.trim() ? (
                 <img
@@ -136,14 +207,14 @@ function LettersModal({ open, onClose, letters = [] }) {
                     width: "100%",
                     marginTop: "20px",
                     borderRadius: "12px",
-                    display: "block"
+                    display: "block",
                   }}
                   onError={(e) => {
-                    e.target.style.display = "none";
+                    e.target.style.display =
+                      "none";
                   }}
                 />
               ) : null}
-
             </div>
           </div>
         )}
