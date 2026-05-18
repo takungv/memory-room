@@ -11,7 +11,6 @@ const hoverAudio =
 
 function SecretRoom() {
   const navigate = useNavigate();
-  const audioRef = useRef(null);
   const mainAudioRef = useRef(null);
   const nightAudioRef = useRef(null);
 
@@ -21,17 +20,61 @@ function SecretRoom() {
   const [carpetOpen, setCarpetOpen] = useState(false);
   const [carpetHover, setCarpetHover] = useState(false);
 
+  const [heartBreak, setHeartBreak] = useState(false);
+  const [heartOpen, setHeartOpen] = useState(false);
+  const [showRose, setShowRose] = useState(false);
+  const [heartPieces, setHeartPieces] = useState([]);
+  const [rosePhase, setRosePhase] = useState(false);
+
+  // idle | explode | bloom | rose | scatter
+const [phase, setPhase] = useState("idle");
+
+// idle | explode | bloom | rose
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
   const [welcomeMessage, setWelcomeMessage] = useState(true);
 
 
+  const scatterRose = () => {
+    setPhase("scatter");
+  
+    const scattered = heartPieces.map((p) => {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 200 + Math.random() * 200;
+  
+      return {
+        ...p,
+        x: p.x + Math.cos(angle) * radius,
+        y: p.y + Math.sin(angle) * radius,
+      };
+    });
+  
+    requestAnimationFrame(() => {
+      setHeartPieces(scattered);
+    });
+  };
 
   const playHoverSound = () => {
     const audio = new Audio(hoverAudio);
     audio.volume = 0.3;
     audio.currentTime = 0;
-    audio.play();x
+    audio.play();
   };
-
+  const generateRose = (count) => {
+    const k = 4; // สำคัญ: 3–5 จะเนียนที่สุด
+  
+    return Array.from({ length: count }).map((_, i) => {
+      const t = (i / count) * Math.PI * 2;
+  
+      const r = 90 * Math.cos(k * t);
+  
+      return {
+        id: i,
+        x: r * Math.cos(t),
+        y: r * Math.sin(t),
+      };
+    });
+  };
   useEffect(() => {
     const main = mainAudioRef.current;
     const night = nightAudioRef.current;
@@ -73,6 +116,38 @@ function SecretRoom() {
   
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    if (!heartOpen) return;
+  
+    const timer = setTimeout(() => {
+      setShowRose(true);
+    }, 1200);
+  
+    return () => clearTimeout(timer);
+  }, [heartOpen]);
+
+  useEffect(() => {
+    if (phase !== "rose") return;
+  
+    const timer = setTimeout(() => {
+      scatterRose(); // 👈 กระจายก่อน
+    }, 5000);
+  
+    return () => clearTimeout(timer);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "scatter") return;
+  
+    const timer = setTimeout(() => {
+      setHeartPieces([]);
+      setPhase("idle");
+      setHeartOpen(false);
+    }, 1200);
+  
+    return () => clearTimeout(timer);
+  }, [phase]);
+
 
   const carpetText = `
 สิ่งที่มันอยู่ใต้พรม
@@ -117,7 +192,7 @@ function SecretRoom() {
 .
 มาถึงจุดล่างสุดของพรมแล้วนะ
 จุดล่างสุดของพรมมันก็ยังมีความรักศึกที่เค้ามีให้เธอจริงๆนะ
-เค้ารักเธอนะ
+เค้ารักเธอนะ🤍
 `;
 
   const windowText = `
@@ -144,6 +219,8 @@ ___________________
 
 เค้ามองหน้าต่างนี้ไปถึงอนาคตด้วยนะ
 เค้าอยากมีเธออยู่ในอนาคตของเค้า
+อยากไปญี่ปุ่นกับเธอ​⛩️​🏔️
+อยากพาเธอไปทะเล 🏖️
 
 อยากกอดเธอจังเลยครับ
 มองหน้าต่างบานนี้แล้วมันก็คิดถึงนะ
@@ -224,6 +301,8 @@ ___________________
       </div>
     )}
 
+    
+
       {/* ===== CARPET ===== */}
       <div
         className="object-wrapper carpet-zone"
@@ -252,6 +331,117 @@ ___________________
         />
       </div>
 
+      {/* HEART */}
+    <div
+      className="object-wrapper"
+      onMouseEnter={playHoverSound}
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "10%",
+        width: "22%",
+        zIndex: 50,
+      }}
+      >
+        <div className="object-label">
+          something i want to give you.
+        </div>
+        
+        <img
+          key = {heartBreak}
+          src="/images/heart-hitbox.png"
+          alt=""
+          className={`object-hover ${heartBreak ? "heart-break" : ""}`}
+          onClick={async () => {
+            if (phase !== "idle") return;
+          
+            // 1. EXPLODE
+            const explode = Array.from({ length: 140 }).map((_, i) => {
+              const angle = Math.random() * Math.PI * 2;
+              const radius = Math.random() * 140;
+          
+              return {
+                id: i,
+                x: 0,   // 👈 สำคัญ: เริ่มที่กลางก่อน
+                y: 0,
+                tx: Math.cos(angle) * radius,  // target
+                ty: Math.sin(angle) * radius,
+              };
+            });
+          
+            setPhase("explode");
+            setHeartPieces(explode);
+          
+            await sleep(50); // 👈 ให้ browser paint ก่อน
+          
+            requestAnimationFrame(() => {
+              setHeartPieces((prev) =>
+                prev.map((p) => ({
+                  ...p,
+                  x: p.tx,
+                  y: p.ty,
+                }))
+              );
+            });
+          
+            await sleep(600);
+          
+            // 2. BLOOM
+            setPhase("bloom");
+          
+            const rose = generateRose(140);
+          
+            setHeartPieces(
+              rose.map((p) => ({
+                ...p,
+                x: 0,
+                y: 0,
+                tx: p.x,
+                ty: p.y,
+              }))
+            );
+          
+            await sleep(50);
+          
+            requestAnimationFrame(() => {
+              setHeartPieces((prev) =>
+                prev.map((p) => ({
+                  ...p,
+                  x: p.tx,
+                  y: p.ty,
+                }))
+              );
+            });
+          
+            await sleep(900);
+          
+            // 3. ROSE
+            setPhase("rose");
+            setHeartOpen(true);
+          
+            await sleep(8500);
+          
+            setHeartPieces([]);
+            setPhase("idle");
+          }}       
+          />
+        {phase !== "idle" && (
+          <div className="rose-form">
+            {heartPieces.map((p) => (
+              <div
+                key={p.id}
+                className="heart-pixel"
+                style={{
+                  transform: `translate(${p.x}px, ${p.y}px)`,
+                }}
+              />
+            ))}
+
+            {phase === "bloom" && <div className="rose-core" />}
+          </div>
+        )}
+        </div>
+
       {/* ===== WINDOW ===== */}
       <div
         className="object-wrapper window-wrapper"
@@ -265,7 +455,7 @@ ___________________
         }}
       >
         <div className="object-label">
-          things i wish i fixed sooner
+          things i wish i fixed sooner.
         </div>
 
         <img
@@ -332,12 +522,33 @@ ___________________
         </div>
       )}
 
+      {phase === "rose" && (
+        <div className="rose-overlay">
+          <div
+              className="rose-container"
+              style={{
+                "--x": "70px",
+                "--y": "-80px",
+              }}
+            >
+            <p className="rose-text">
+              for you 🤍
+            </p>
+
+            <p className="rose-subtext">
+              ถึงมันจะแตกออกไปแล้ว  
+              แต่มันยังหาทางกลับมาได้เสมอนะ
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* BACK */}
       <button
         className="secret-back-button"
         onClick={() => navigate("/room")}
       >
-        ← back
+        ← กลับไปห้องของเรา
       </button>
     </div>
   );
