@@ -11,6 +11,17 @@ function LettersModal({
   letters = [],
 }) {
 
+  const subtitles = {
+    apology:
+      "บางคำพูดมันติดอยู่ในใจเค้ามานาน\nแล้วเค้าก็อยากให้เธอได้ยินมันสักครั้ง",
+  
+    if_someday:
+      "จดหมายสำหรับวันที่เค้าอาจไม่ได้อยู่ตรงนี้แล้ว\nแต่ความคิดถึงของเค้า ยังอยากเดินกลับมาหาเธอเสมอ",
+  
+    my_letter:
+      "ความรู้สึกของเค้าที่มีต่อเธอ\nที่เค้าอยากจดบันทึกไว้\nไม่ว่าจะเกิดอะไรขึ้นก็ตาม",
+  };
+
   const navigate = useNavigate();
 
   const [selectedLetter, setSelectedLetter] =
@@ -89,9 +100,7 @@ function LettersModal({
             <h1>Letters for you</h1>
 
             <p className="letter-subtitle">
-              {activeTab === "apology"
-                ? "บางคำพูดมันติดอยู่ในใจเค้ามานาน\nแล้วเค้าก็อยากให้เธอได้ยินมันสักครั้ง"
-                : "จดหมายสำหรับวันที่เค้าอาจไม่ได้อยู่ตรงนี้แล้ว\nแต่ความคิดถึงของเค้า ยังอยากเดินกลับมาหาเธอเสมอ"}
+              {subtitles[activeTab]}
             </p>
 
             <div className="letter-tabs">
@@ -106,6 +115,19 @@ function LettersModal({
                 }
               >
                 ถึงเธอในตอนนี้
+              </button>
+              
+              <button
+                className={
+                  activeTab === "my_letter"
+                  ? "active-tab"
+                  : ""
+                }
+                onClick={() =>
+                  setActiveTab("my_letter")
+                }
+              >
+                บันทึกของเค้า
               </button>
 
               <button
