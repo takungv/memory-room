@@ -9,6 +9,7 @@ function LettersModal({
   open,
   onClose,
   letters = [],
+  onLetterEvent,
 }) {
 
   const subtitles = {
@@ -155,16 +156,20 @@ function LettersModal({
                   }`}
                   onClick={() => {
                     playLetterSound();
-
+                  
+                    // 👉 ส่ง event ออกไปถ้ามี
+                    if (letter.event) {
+                      onLetterEvent?.(letter.event);
+                    }
+                  
+                    // secret logic (ยังใช้ได้เหมือนเดิม)
                     if (letter.isSecret) {
-
                       setTimeout(() => {
                         navigate("/secret-room");
                       }, 1200);
-
                       return;
                     }
-
+                  
                     setSelectedLetter(letter);
                   }}
                 >

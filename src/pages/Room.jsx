@@ -9,6 +9,38 @@ const hoverAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_a
 const roomDay =  "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/light_m0a890.png"
 const roomNight = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1778765108/night_wndh4z.png"
 
+// BIRTHDAY EVENT
+const birthdayRoomDay = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779724579/birthday-room-day_vpnpv7.png"
+const birthdayRoomNight = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779724580/birthday-room-night_mrvgcw.png"
+
+const catHitboxBDDay = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779732860/cat-bd-hitbox-day_ox8ti9.png"
+const catHitboxBDNight = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779732862/cat-bd-hitbox-night_nj0oyo.png"
+
+const songHitbox_day_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736273/song-bd-hitbox-day_wdhcw8.png"
+const songHitbox_night_bd ="https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779737169/song-bd-hitbox-night_usuakx.png"
+
+const letterHitbox_day_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736271/letter-bd-hitbox-day_hm6nnt.png"
+const letterHitbox_night_bd ="https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779737057/letter-bd-hitbox-night_xphzpu.png"
+
+const giftHitbox_day_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736268/gift-bd-hitbox-day_l363f8.png"
+const giftHitbox_night_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779738938/gift-bd-hitbox-night_roz8nv.png"
+
+const boardHitbox_day_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736266/board-bd-hitbox-day_beycln.png"
+const boardHitbox_night_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736991/board-bd-hitbox-night_gtk1ad.png"
+
+const guitarHitbox_day_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736269/guitar-bd-hitbox-day_ekaq7z.png"
+const guitarHitbox_night_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779737054/guitar-bd-hitbox-night_wdzglz.png"
+
+const computerHitbox_day_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779736267/computer-bd-hitbox-day_cjtlmq.png"
+const computerHitbox_night_bd = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779737050/computer-bd-hitbox-night_jgpo0h.png"
+
+const giftboxHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779822070/giftbox-day_mdb31o.png"
+const giftboxHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1779822071/giftbox-night_lzy5eu.png"
+
+const birthdayMusic = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1780167046/Happy_Birthday_Piano_Version_yrbrn0.mp3"
+
+///////////////////
+
 const guitarHitbox = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765158/guitar-hitbox-light_igspyv.png"
 
 const modeHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765107/mode-hitbox-day_d1dkwp.png"
@@ -43,6 +75,7 @@ import ComputerModal from "../components/ComputerModal";
 import CatModal from "../components/CatModal";
 import GiftModal from "../components/GiftModal";
 import BoardModal from "../components/BoardModal";
+import GiftboxModal from "../components/GiftboxModal";
 
 function Room({ roomData }) {
   
@@ -83,6 +116,29 @@ function Room({ roomData }) {
     roomData?.boardMemories || []
   );
 
+  const [birthdayPhotos, setBirthdayPhotos] = useState(
+    roomData?.birthdayPhotos || []
+  );
+
+  const [currentMusic, setCurrentMusic] = useState(cozyAudio);
+
+
+
+  
+
+  const switchToGiftboxMusic = () => {
+    const bgAudio =
+      document.getElementById("bg-audio");
+  
+    if (!bgAudio) return;
+  
+    bgAudio.src = birthdayMusic;
+    bgAudio.load();
+    bgAudio.play();
+  };
+  
+
+
   const [guitarOpen, setGuitarOpen] = useState(false);
   const [lettersOpen, setLettersOpen] = useState(false);
   const [songsOpen, setSongsOpen] = useState(false);
@@ -92,8 +148,25 @@ function Room({ roomData }) {
   const [catOpen, setCatOpen] = useState(false);
   const [boardOpen, setBoardOpen] = useState(false);
 
+  const [giftboxOpen, setGiftboxOpen] = useState(false);
+  const [giftboxPhotos, setGiftboxPhotos] = useState([]);
+
   const [roomImagesReady, setRoomImagesReady] = useState(false);
   const [welcomeMessage, setWelcomeMessage] = useState(true);
+
+  const [birthdaySceneActive, setBirthdaySceneActive] = useState(false);
+
+  const birthdayMonth = 6;
+  const birthdayDay = 1;
+  const today = new Date();
+
+  const isBirthdayToday =
+  today.getMonth() + 1 === 6 &&
+  today.getDate() === 1;
+
+const effectiveBirthday =
+  birthdaySceneActive && isBirthdayToday;
+
 
   const normalPhotos = photos.filter((p) => p.category === "photo");
   const giftPhotos = photos.filter((p) => p.category === "gift");
@@ -149,6 +222,32 @@ const loadBoardMemories = async () => {
 
   const res = await api.get("/Memories/board");
   setBoardMemories(res.data);
+};
+
+
+const loadGiftboxPhotos = async () => {
+  try {
+    const res = await api.get("/GiftboxPhotos");
+
+    console.log(res.data);
+
+    setGiftboxPhotos(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+const handleLetterEvent = (Event) => {
+  if (Event === "birthday_room_unlock") {
+    const isBirthdayToday =
+      new Date().getMonth() + 1 === 6 &&
+      new Date().getDate() === 1;
+
+    if (isBirthdayToday) {
+      setBirthdaySceneActive(true);
+    }
+  }
 };
 
   useEffect(() => {
@@ -256,7 +355,7 @@ const loadBoardMemories = async () => {
   }, []);
 
   useEffect(() => {
-    const images = [roomDay, roomNight];
+    const images = [roomDay, roomNight, birthdayRoomDay, birthdayRoomNight];
   
     Promise.all(
       images.map((src) => {
@@ -359,6 +458,59 @@ const loadBoardMemories = async () => {
     fadeAudio(nightAmbient);
   };
 
+  const changeMusic = (newMusic) => {
+
+    const audio = document.getElementById("bg-audio");
+  
+    if (!audio) return;
+  
+    let volume = audio.volume;
+  
+    const fadeOut = setInterval(() => {
+  
+      if (volume > 0.02) {
+  
+        volume -= 0.02;
+        audio.volume = volume;
+  
+      } else {
+  
+        clearInterval(fadeOut);
+  
+        audio.pause();
+  
+        audio.src = newMusic;
+  
+        audio.load();
+  
+        audio.volume = 0;
+  
+        audio.play();
+  
+        let fadeInVolume = 0;
+  
+        const fadeIn = setInterval(() => {
+  
+          if (fadeInVolume < 0.19) {
+  
+            fadeInVolume += 0.02;
+  
+            audio.volume = fadeInVolume;
+  
+          } else {
+  
+            clearInterval(fadeIn);
+  
+          }
+  
+        }, 120);
+  
+      }
+  
+    }, 120);
+  
+  };
+
   return (
     
     <div className="room">
@@ -376,31 +528,25 @@ const loadBoardMemories = async () => {
             </p>
 
             <h1>
-            คำขอโทษจากเค้า...
-              <br />
-              ที่เค้าทำให้เธอร้องไห้ครับ
+            มีจดหมายฉบับนึงให้เธอครับ...
             </h1>
 
             <p className="welcome-text">
-            เค้าขอโทษนะครับที่บอกว่าเค้าอยากตาย
-            <br />
-            เค้าแค่อยากให้เธอรู้ว่าเค้าพูดความจริง
-            <br />
-            จนเค้าพูดคำที่มันกระทบใจเธอ
-            <br />
-            เค้าอยากให้เธอรู้นะครับว่าเค้า
-            <br />
-            รู้สึกแย่มากเหมือนกันครับ ที่สุดท้ายแล้วเค้าก็ทำให้เธอเสียใจ
-            <br />
-            ทั้งๆที่เค้าแค่อยากให้มันดีขึ้นครับ
-            <br />
-            เค้าขอโทษนะครับ..
-            <br />
-            กับความรู้สึกแย่ๆที่เกิดขึ้น
-            <br />
-            เค้าจะดูแลเธอให้ดีนะครับ
-            <br />
-            เหมือนที่บอกเธอตลอดครับ
+              เค้าอยากบอกว่าที่ผ่านมาเค้าอาจจะทำตัวไม่ดีไปเยอะมากกับเธอ
+              <br />
+              เค้าสำนึกมันมากๆครับ แล้วก็เสียใจกับความรู้สึกที่เกิดขึ้นจริงๆ
+              <br />
+              เค้ามีอะไรจะบอกอีกอย่างนึงด้วยนะะ
+              <br />
+              "เป็นแฟนกับเค้านะครับ"
+              <br />
+              เค้าก็อยากบอกแบบนี้แหละครับ คำตอบไม่ต้องก็ได้ครับ ถ้ายังไม่พร้อม
+              <br />
+              พูดมาตั้งนาน เค้าเกือบลืมบอกไปเลยว่า...
+              <br />
+              สุขสันต์วันเกิดนะครับ 🎂
+              <br />
+              ถ้าเปิดเข้ามาอ่านแล้ว ลองกลับไปดูที่ห้องนะครับ
             </p>
 
             <p className="welcome-end">
@@ -432,7 +578,9 @@ const loadBoardMemories = async () => {
       </div>
       <div className="room-scene">
         <img
-          src={roomDay}
+          src={
+            effectiveBirthday ? birthdayRoomDay : roomDay
+          }
           alt=""
           className={`room-image ${
             nightMode ? "fade-out" : "fade-in"
@@ -440,7 +588,9 @@ const loadBoardMemories = async () => {
         />
 
         <img
-          src={roomNight}
+          src={
+            effectiveBirthday ? birthdayRoomNight : roomNight
+          }
           alt=""
           className={`room-image ${
             nightMode ? "fade-in" : "fade-out"
@@ -451,7 +601,7 @@ const loadBoardMemories = async () => {
       {/* AUDIO */}
       <audio
         id="bg-audio"
-        src={cozyAudio}
+        src={currentMusic}
         loop
         autoPlay
       />
@@ -473,15 +623,31 @@ const loadBoardMemories = async () => {
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "8%" : "7.5%",
-          top: nightMode ? "24%" : "27%",
-          width: nightMode ? "22.2%" : "24.5%",
+          left : effectiveBirthday
+            ? (nightMode ? "8%" : "6.8%") // BIRTHDAY EVENT
+            : (nightMode ? "8%" : "7.5%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "24%" : "25.5%") //BIRTHDAY EVENT
+            : (nightMode ? "24%" : "27%"), //NORMAL
+          width : effectiveBirthday
+            ? (nightMode ? "22.2%" : "20.5%") // BIRTHDAY EVENT
+            : (nightMode ? "22.2%" : "24.5%"), //NORMAL
+
         }}
       >
         <div className="object-label">late night games</div>
 
         <img
-          src={nightMode ? computerHitbox_night : computerHitbox_day}
+          src={effectiveBirthday
+            ? (nightMode
+                ? computerHitbox_night_bd
+                : computerHitbox_day_bd
+            )
+            : (nightMode
+                ? computerHitbox_night
+                : computerHitbox_day
+            )
+          }
           alt=""
           
           className="object-hover"
@@ -493,20 +659,67 @@ const loadBoardMemories = async () => {
         />
       </div>
 
+      {/* BIRTHDAY EVENT */}
+      {/* BIRTHDAY GIFT */}
+      {effectiveBirthday && (
+        <div
+          className="object-wrapper"
+          onMouseEnter={playHoverSound}
+          style={{
+            left: nightMode ? "44.4%" : "43%",
+            top: nightMode ? "59.6%" : "60%",
+            width: nightMode ? "17%" :"19%",
+          }}
+        >
+          <div className="object-label">
+            for her birthday
+          </div>
+
+          <img
+            src={nightMode ? giftboxHitbox_night : giftboxHitbox_day}
+            alt=""
+            className="object-hover"
+            onClick={async () => {
+              await loadGiftboxPhotos();
+            
+              setGiftboxOpen(true);
+            }}
+          />
+        </div>
+      )}
+
       {/* BOARD */}
       <div
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "79%" : "83.5%",
-          top: nightMode ? "22.4%" : "22.1%",
-          width: nightMode ? "21%" : "17%",
+          left : effectiveBirthday
+            ? (nightMode ? "79%" : "83%") // BIRTHDAY EVENT
+            : (nightMode ? "79%" : "83.5%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "22.4%" : "24%") //BIRTHDAY EVENT
+            : (nightMode ? "22.4%" : "22.1%"), //NORMAL
+          width : effectiveBirthday
+            ? (nightMode ? "21%" : "17%") // BIRTHDAY EVENT
+            : (nightMode ? "21%" : "17%"), //NORMAL
         }}
       >
         <div className="object-label">things we made</div>
 
         <img
-          src={nightMode ? boardHitbox_night : boardHitbox_day}
+          src={
+            effectiveBirthday
+            ? (nightMode
+                //BIRTHDAY EVENT
+                ? boardHitbox_night_bd
+                : boardHitbox_day_bd
+            )
+            : (nightMode
+                //NORMAL
+                ? boardHitbox_night
+                : boardHitbox_day
+            )
+          }
           alt=""
           className="object-hover"
           onClick={async () => {
@@ -521,15 +734,34 @@ const loadBoardMemories = async () => {
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "1%" : "0%",
-          top: nightMode ? "68%" : "67%",
-          width: nightMode ? "22.5%" : "26.5%",
+          left : effectiveBirthday
+            ? (nightMode ? "35%" : "35%") // BIRTHDAY EVENT
+            : (nightMode ? "1%" : "0%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "52%" : "50%") //BIRTHDAY EVENT
+            : (nightMode ? "68%" : "67%"), //NORMAL
+          width : effectiveBirthday
+            ? (nightMode ? "12%" : "13%") // BIRTHDAY EVENT
+            : (nightMode ? "22.5%" : "26.5%"), //NORMAL
+
         }}
       >
         <div className="object-label">little sleepy cat</div>
 
         <img
-          src={nightMode ? catHitbox_night : catHitbox_day}
+          src={
+            effectiveBirthday
+            ? (nightMode
+                ? catHitboxBDNight
+                : catHitboxBDDay
+            )
+            : (
+              nightMode
+                ? catHitbox_night
+                : catHitbox_day
+            )
+
+          }
           alt=""
           className="object-hover"
           onClick={async () => {
@@ -545,15 +777,28 @@ const loadBoardMemories = async () => {
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "64%" : "68%",
-          top: nightMode ? "22%" : "24%",
-          width: nightMode ? "13.3%" : "14.3%",
+          left : effectiveBirthday
+            ? (nightMode ? "63%" : "66%") // BIRTHDAY EVENT
+            : (nightMode ? "64%" : "68%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "22%" : "22%") //BIRTHDAY EVENT
+            : (nightMode ? "22%" : "24%"), //NORMAL
+          width : effectiveBirthday
+            ? (nightMode ? "15.3%" : "15.5%") // BIRTHDAY EVENT
+            : (nightMode ? "13.3%" : "14.3%"), //NORMAL
         }}
       >
         <div className="object-label">strings that remember</div>
 
         <img
-          src={guitarHitbox}
+          src={
+            effectiveBirthday
+            ? (nightMode
+                ? guitarHitbox_night_bd
+                : guitarHitbox_day_bd
+            )
+            : guitarHitbox
+          }
           alt=""
           className="object-hover"
           onClick={openGuitar}
@@ -565,15 +810,33 @@ const loadBoardMemories = async () => {
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "39%" : "43.5%",
-          top: nightMode ? "42.5%" : "43.5%",
-          width: nightMode ? "31%" : "32%",
+          left : effectiveBirthday
+            ? (nightMode ? "39%" : "43.5%") // BIRTHDAY EVENT
+            : (nightMode ? "39%" : "43.5%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "42.5%" : "41.5%") //BIRTHDAY EVENT
+            : (nightMode ? "42.5%" : "43.5%"), //NORMAL
+
+          width : effectiveBirthday
+            ? (nightMode ? "31%" : "32%") // BIRTHDAY EVENT
+            : (nightMode ? "31%" : "32%"), //NORMAL
         }}
       >
         <div className="object-label">pieces of her</div>
 
         <img
-          src={nightMode ? giftHitbox_night : giftHitbox_day}
+          src={
+            effectiveBirthday
+            ? (nightMode
+                ? giftHitbox_night_bd
+                : giftHitbox_day_bd
+            )
+            : (
+              nightMode
+                ? giftHitbox_night
+                : giftHitbox_day
+            )
+          }
           alt=""
           className="object-hover"
           onClick={async () => {
@@ -653,15 +916,32 @@ const loadBoardMemories = async () => {
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "27.5%" : "44%",
-          top: nightMode ? "76%" : "79%",
-          width: nightMode ? "31%" : "32%",
+          left : effectiveBirthday
+            ? (nightMode ? "27.5%" : "48%") // BIRTHDAY EVENT
+            : (nightMode ? "27.5%" : "44%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "76%" : "80%") // BIRTHDAY EVENT
+            : (nightMode ? "76%" : "79%"), //NORMAL
+          width : effectiveBirthday
+            ? (nightMode ? "31%" : "33%") // BIRTHDAY EVENT
+            : (nightMode ? "31%" : "32%"), //NORMAL
+
         }}
       >
         <div className="object-label">words I kept</div>
 
         <img
-          src={nightMode ? letterHitbox_night : letterHitbox_day}
+          src={
+            effectiveBirthday
+            ? (nightMode
+                ? letterHitbox_night_bd
+                : letterHitbox_day_bd
+            )
+            : (nightMode
+                ? letterHitbox_night
+                : letterHitbox_day
+            )
+          }
           alt=""
           className="object-hover"
           onClick={async () => {
@@ -675,15 +955,32 @@ const loadBoardMemories = async () => {
         className="object-wrapper"
         onMouseEnter={playHoverSound}
         style={{
-          left: nightMode ? "49%" : "51.5%",
-          top: nightMode ? "36.5%" : "35.7%",
-          width: nightMode ? "16%" : "17.5%",
+          left : effectiveBirthday
+            ? (nightMode ? "49%" : "51.5%") // BIRTHDAY EVENT
+            : (nightMode ? "49%" : "51.5%"), //NORMAL
+          top : effectiveBirthday
+            ? (nightMode ? "36.5%" : "33.7%") // BIRTHDAY EVENT
+            : (nightMode ? "36.5%" : "35.7%"), //NORMAL
+          width : effectiveBirthday
+            ? (nightMode ? "16%" : "17.5%") // BIRTHDAY EVENT
+            : (nightMode ? "16%" : "17.5%"), //NORMAL
+
         }}
       >
         <div className="object-label">songs we left</div>
 
         <img
-          src={nightMode ? songHitbox_night : songHitbox_day}
+          src={
+            effectiveBirthday
+            ? (nightMode
+                ? songHitbox_night_bd
+                : songHitbox_day_bd
+            )
+            : (nightMode
+                ? songHitbox_night
+                : songHitbox_day
+            )
+          }
           alt=""
           className="object-hover"
           onClick={async () => {
@@ -711,6 +1008,7 @@ const loadBoardMemories = async () => {
         open={lettersOpen}
         onClose={() => setLettersOpen(false)}
         letters={letters}
+        onLetterEvent={handleLetterEvent}
       />
 
       <SongModal
@@ -748,6 +1046,13 @@ const loadBoardMemories = async () => {
         onClose={() => setBoardOpen(false)}
         boards={boardMemories}
       />
+
+        <GiftboxModal
+          open={giftboxOpen}
+          onClose={() => setGiftboxOpen(false)}
+          photos={giftboxPhotos}
+          onOpenGiftBox={switchToGiftboxMusic}
+        />
 
       {endingMode && (
         <div className="ending-overlay">
