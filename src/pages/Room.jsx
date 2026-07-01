@@ -177,14 +177,14 @@ const effectiveBirthday =
 const loadGuitarMemories = async () => {
   if (guitarMemories.length > 0) return;
 
-  const res = await api.get("/Memories/guitar");
+  const res = await api.get("api/Memories/guitar");
   setGuitarMemories(res.data);
 };
 
 const loadLetters = async () => {
   if (letters.length > 0) return;
 
-  const res = await api.get("/Letters");
+  const res = await api.get("api/Letters");
   setLetters(res.data);
 };
 
