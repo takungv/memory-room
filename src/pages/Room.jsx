@@ -78,7 +78,6 @@ import BoardModal from "../components/BoardModal";
 import GiftboxModal from "../components/GiftboxModal";
 
 function Room({ roomData }) {
-  
 
   const [endingMode, setEndingMode] = useState(false);
 
@@ -152,12 +151,12 @@ function Room({ roomData }) {
   const [giftboxPhotos, setGiftboxPhotos] = useState([]);
 
   const [roomImagesReady, setRoomImagesReady] = useState(false);
-  const [welcomeMessage, setWelcomeMessage] = useState(true);
+
+  //welcome message
+  const [welcomeMessage, setWelcomeMessage] = useState(false);
 
   const [birthdaySceneActive, setBirthdaySceneActive] = useState(false);
 
-  const birthdayMonth = 6;
-  const birthdayDay = 1;
   const today = new Date();
 
   const isBirthdayToday =
@@ -513,6 +512,7 @@ const handleLetterEvent = (Event) => {
 
   return (
     
+    
     <div className="room">
       {!roomImagesReady && (
         <div className="room-waiting">
@@ -528,7 +528,7 @@ const handleLetterEvent = (Event) => {
             </p>
 
             <h1>
-            เลิกรอ้งได้แล้วครับ...
+            เลิกร้องได้แล้วครับ...
             </h1>
 
             <p className="welcome-text">
