@@ -80,6 +80,7 @@ import GiftboxModal from "../components/GiftboxModal";
 function Room({ roomData }) {
 
   const [endingMode, setEndingMode] = useState(false);
+  const [birthdayMode, setBirthdayMode] = useState(false);
 
   const [holdTimeout, setHoldTimeout] =
     useState(null);
@@ -153,7 +154,7 @@ function Room({ roomData }) {
   const [roomImagesReady, setRoomImagesReady] = useState(false);
 
   //welcome message
-  const [welcomeMessage, setWelcomeMessage] = useState(false);
+  const [welcomeMessage, setWelcomeMessage] = useState(true);
 
   const [birthdaySceneActive, setBirthdaySceneActive] = useState(false);
 
@@ -164,7 +165,7 @@ function Room({ roomData }) {
   today.getDate() === 1;
 
 const effectiveBirthday =
-  birthdaySceneActive && isBirthdayToday;
+  (birthdaySceneActive && isBirthdayToday) || birthdayMode;
 
 
   const normalPhotos = photos.filter((p) => p.category === "photo");
@@ -177,56 +178,56 @@ const effectiveBirthday =
 const loadGuitarMemories = async () => {
   if (guitarMemories.length > 0) return;
 
-  const res = await api.get("/Memories/guitar");
+  const res = await api.get("/api/Memories/guitar");
   setGuitarMemories(res.data);
 };
 
 const loadLetters = async () => {
   if (letters.length > 0) return;
 
-  const res = await api.get("/Letters");
+  const res = await api.get("/api/Letters");
   setLetters(res.data);
 };
 
 const loadSongs = async () => {
   if (songs.length > 0) return;
 
-  const res = await api.get("/Songs");
+  const res = await api.get("/api/Songs");
   setSongs(res.data);
 };
 
 const loadPhotos = async () => {
   if (photos.length > 0) return;
 
-  const res = await api.get("/Photos");
+  const res = await api.get("/api/Photos");
   setPhotos(res.data);
 };
 
 const loadComputerMemories = async () => {
   if (computerMemories.length > 0) return;
 
-  const res = await api.get("/Memories/computer");
+  const res = await api.get("/api/Memories/computer");
   setComputerMemories(res.data);
 };
 
 const loadCatMemories = async () => {
   if (catMemories.length > 0) return;
 
-  const res = await api.get("/Memories/cat");
+  const res = await api.get("/api/Memories/cat");
   setCatMemories(res.data);
 };
 
 const loadBoardMemories = async () => {
   if (boardMemories.length > 0) return;
 
-  const res = await api.get("/Memories/board");
+  const res = await api.get("/api/Memories/board");
   setBoardMemories(res.data);
 };
 
 
 const loadGiftboxPhotos = async () => {
   try {
-    const res = await api.get("/GiftboxPhotos");
+    const res = await api.get("/api/GiftboxPhotos");
 
     console.log(res.data);
 
@@ -528,21 +529,23 @@ const handleLetterEvent = (Event) => {
             </p>
 
             <h1>
-            เลิกร้องได้แล้วครับ...
+            เรื่องที่อยากบอกในวันที่เค้าทำพลาด...
             </h1>
 
             <p className="welcome-text">
-              เค้ารู้ครับว่าเค้าทำให้เธอไม่พอใจ
+              เค้ารู้ครับว่าเค้าทำพลาดแบบไหน
               <br />
-              เค้าคิดว่าเค้าไม่มีอะไรพลาดแล้วมาตลอดเลย
+              เค้าไม่มีอะไรจะบอกเธอนอกจาก..
               <br />
-              สุดท้ายมันก็มี...
+              เค้าขอโทษครับที่เค้าเลือกที่จะบอกเธอไม่หมด
               <br />
-              เค้าจะไม่ติดต่ออะไรมันแล้วครับ
+              ...ขอโทษจากใจจริงครับ
               <br />
-              ขอโทษครับที่ทำให้เสีนใจ
+              เค้าไม่ได้ทำอันนี้มาเพื่อขอให้เธอให้อภัยเค้า
               <br />
-              ขอโทษครับที่เค้าทำผิดพลาด
+              เค้าแค่ต้องการให้เธอรู้ว่าเค้าเสียใจจริง ๆ และเค้าจะไม่ทำแบบนี้อีก
+              <br />
+              เค้ารักเธอนะครับ
               
             </p>
 
@@ -609,11 +612,30 @@ const handleLetterEvent = (Event) => {
         loop
       />
 
-      <button className="bg-music-button" onClick={toggleBackgroundMusic}>
+      <button className="bg-music-button" onClick={toggleBackgroundMusic}
+      onMouseDown={() => {
+        const timeout = setTimeout(() => {
+          setBirthdayMode(true);
+        }, 6000);
+
+        setHoldTimeout(timeout);
+      }}
+
+      onMouseUp={() => {
+        clearTimeout(holdTimeout);
+      }}
+
+      onMouseLeave={() => {
+        clearTimeout(holdTimeout);
+      }}
+      
+      >
         {bgMusicOn
           ? "♪ The room is quietly playing"
           : "♪ Play the songs left in this room"}
+        
       </button>
+      
 
       {/* COMPUTER */}
       <div

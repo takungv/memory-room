@@ -22,7 +22,7 @@ export default function Admin() {
     setLoading(true);
 
     try {
-        await api.post("/letters", {
+        await api.post("/api/letters", {
             Title: form.title,
             Content: form.content,
             Category: form.category
