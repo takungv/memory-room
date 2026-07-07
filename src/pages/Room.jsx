@@ -524,6 +524,20 @@ const handleLetterEvent = (Event) => {
       {welcomeMessage && (
         <div className="welcome-overlay">
           <div className="welcome-box">
+            <div className="welcome-hydrangea">
+              {[...Array(18)].map((_, i) => (
+                <span
+                  key={i}
+                  className="hydrangea"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 12}s`,
+                    animationDuration: `${12 + Math.random() * 8}s`,
+                    transform: `scale(${0.6 + Math.random() * 0.8})`,
+                  }}
+                />
+              ))}
+          </div>
             <p className="welcome-small">
               before you stay here for a while...
             </p>
