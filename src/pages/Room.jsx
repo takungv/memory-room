@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import api from "../services/api";
 
 const cozyAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1778768724/cozy_znbc51.mp3"
