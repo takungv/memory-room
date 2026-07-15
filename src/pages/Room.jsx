@@ -138,14 +138,12 @@ function Room({ roomData }) {
 
   
 
-  const switchToGiftboxMusic = () => {
-    const bgAudio =
-      document.getElementById("bg-audio");
-  
+  const switchToGiftboxMusic = async () => {
+    const bgAudio = document.getElementById("bg-audio");
     if (!bgAudio) return;
 
-    await safePause(bgAudio);
-  
+    safePause(bgAudio);   // ✅ รอ play เดิมก่อน
+
     bgAudio.src = birthdayMusic;
     bgAudio.load();
     safePlay(bgAudio);
@@ -528,7 +526,7 @@ const handleLetterEvent = (Event) => {
   
         clearInterval(fadeOut);
   
-        await safePause(audio);
+        safePause(audio);
   
         audio.src = newMusic;
   
