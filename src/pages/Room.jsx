@@ -192,14 +192,37 @@ const effectiveBirthday =
 // LOAD ONLY WHEN OPEN
 // =========================
 
+// เก็บ play() promise ของแต่ละ audio element ไว้
+const playPromises = useRef({});
+
 const safePlay = (audio) => {
   if (!audio) return;
   const p = audio.play();
+  playPromises.current[audio.id] = p;
+
   if (p && typeof p.catch === "function") {
     p.catch((err) => {
-      console.warn("Autoplay blocked or unsupported:", err);
+      if (err.name !== "AbortError") {
+        console.warn("Play error:", err);
+      }
     });
   }
+  return p;
+};
+
+const safePause = async (audio) => {
+  if (!audio) return;
+  const pending = playPromises.current[audio.id];
+
+  if (pending) {
+    try {
+      await pending; // รอ play() เสร็จก่อนค่อย pause
+    } catch (e) {
+      return; // play() ถูก abort ไปแล้ว ไม่ต้อง pause ซ้ำ
+    }
+  }
+
+  audio.pause();
 };
 
 const loadGuitarMemories = async () => {
@@ -324,7 +347,7 @@ const handleLetterEvent = (Event) => {
   
     // ถ้าเพลงหลักยังไม่เล่น
     if (!bgMusicOn) {
-      nightAmbient.pause();
+      safePause(nightAmbient);
       return;
     }
   
@@ -332,7 +355,7 @@ const handleLetterEvent = (Event) => {
     if (nightMode) {
       nightAmbient.volume = 0;
   
-      nightAmbient.play();
+      safePlay(nightAmbient);
   
       fadeInterval = setInterval(() => {
         if (nightAmbient.volume < 0.09) {
@@ -351,7 +374,7 @@ const handleLetterEvent = (Event) => {
         } else {
           clearInterval(fadeInterval);
   
-          nightAmbient.pause();
+          safePause(nightAmbient);
         }
       }, 120);
     }
@@ -439,7 +462,7 @@ const handleLetterEvent = (Event) => {
     const audio = document.getElementById("bg-audio");
   
     if (audio && bgMusicOn) {
-      audio.pause();
+      await safePause(audio);
     }
   
     setGuitarOpen(true);
