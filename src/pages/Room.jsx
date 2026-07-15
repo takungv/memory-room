@@ -4,7 +4,7 @@ import api from "../services/api";
 const cozyAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768724/cozy_znbc51.mp3"
 const nightAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768848/night_nymfzi.mp3"
 
-const aniversaryAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784124408/%E0%B8%81%E0%B8%A5%E0%B8%A7%E0%B8%A7%E0%B8%B2%E0%B8%89%E0%B8%99%E0%B8%88%E0%B8%B0%E0%B9%84%E0%B8%A1%E0%B9%80%E0%B8%AA%E0%B8%A2%E0%B9%83%E0%B8%88_-_PURPEECH_X_LIPTA_Fingerstyle_Guitar_Cover_TAB_ztoorb.mp3"
+const aniversaryAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784128339/ani_kgggxb.mp3"
 
 const hoverAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778769050/hover_xk4vxd.mp3"
 
@@ -195,7 +195,7 @@ const effectiveBirthday =
 const loadGuitarMemories = async () => {
   if (guitarMemories.length > 0) return;
 
-  const res = await api.get("/Memories/guitar");
+  const res = await api.get("api/Memories/guitar");
   setGuitarMemories(res.data);
 };
 
@@ -223,28 +223,28 @@ const loadPhotos = async () => {
 const loadComputerMemories = async () => {
   if (computerMemories.length > 0) return;
 
-  const res = await api.get("/Memories/computer");
+  const res = await api.get("api/Memories/computer");
   setComputerMemories(res.data);
 };
 
 const loadCatMemories = async () => {
   if (catMemories.length > 0) return;
 
-  const res = await api.get("/Memories/cat");
+  const res = await api.get("api/Memories/cat");
   setCatMemories(res.data);
 };
 
 const loadBoardMemories = async () => {
   if (boardMemories.length > 0) return;
 
-  const res = await api.get("/Memories/board");
+  const res = await api.get("api/Memories/board");
   setBoardMemories(res.data);
 };
 
 
 const loadGiftboxPhotos = async () => {
   try {
-    const res = await api.get("/GiftboxPhotos");
+    const res = await api.get("api/GiftboxPhotos");
 
     console.log(res.data);
 
