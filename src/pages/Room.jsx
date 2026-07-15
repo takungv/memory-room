@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 
-const cozyAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768724/cozy_znbc51.mp3"
+const cozyAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1778768724/cozy_znbc51.mp3"
 const nightAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768848/night_nymfzi.mp3"
 
 const aniversaryAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784128339/ani_kgggxb.mp3"
