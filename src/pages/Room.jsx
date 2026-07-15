@@ -195,56 +195,56 @@ const effectiveBirthday =
 const loadGuitarMemories = async () => {
   if (guitarMemories.length > 0) return;
 
-  const res = await api.get("/api/Memories/guitar");
+  const res = await api.get("/Memories/guitar");
   setGuitarMemories(res.data);
 };
 
 const loadLetters = async () => {
   if (letters.length > 0) return;
 
-  const res = await api.get("/api/Letters");
+  const res = await api.get("/Letters");
   setLetters(res.data);
 };
 
 const loadSongs = async () => {
   if (songs.length > 0) return;
 
-  const res = await api.get("/api/Songs");
+  const res = await api.get("/Songs");
   setSongs(res.data);
 };
 
 const loadPhotos = async () => {
   if (photos.length > 0) return;
 
-  const res = await api.get("/api/Photos");
+  const res = await api.get("/Photos");
   setPhotos(res.data);
 };
 
 const loadComputerMemories = async () => {
   if (computerMemories.length > 0) return;
 
-  const res = await api.get("/api/Memories/computer");
+  const res = await api.get("/Memories/computer");
   setComputerMemories(res.data);
 };
 
 const loadCatMemories = async () => {
   if (catMemories.length > 0) return;
 
-  const res = await api.get("/api/Memories/cat");
+  const res = await api.get("/Memories/cat");
   setCatMemories(res.data);
 };
 
 const loadBoardMemories = async () => {
   if (boardMemories.length > 0) return;
 
-  const res = await api.get("/api/Memories/board");
+  const res = await api.get("/Memories/board");
   setBoardMemories(res.data);
 };
 
 
 const loadGiftboxPhotos = async () => {
   try {
-    const res = await api.get("/api/GiftboxPhotos");
+    const res = await api.get("/GiftboxPhotos");
 
     console.log(res.data);
 
