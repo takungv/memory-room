@@ -4,6 +4,8 @@ import api from "../services/api";
 const cozyAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768724/cozy_znbc51.mp3"
 const nightAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778768848/night_nymfzi.mp3"
 
+const aniversaryAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784124408/%E0%B8%81%E0%B8%A5%E0%B8%A7%E0%B8%A7%E0%B8%B2%E0%B8%89%E0%B8%99%E0%B8%88%E0%B8%B0%E0%B9%84%E0%B8%A1%E0%B9%80%E0%B8%AA%E0%B8%A2%E0%B9%83%E0%B8%88_-_PURPEECH_X_LIPTA_Fingerstyle_Guitar_Cover_TAB_ztoorb.mp3"
+
 const hoverAudio = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1778769050/hover_xk4vxd.mp3"
 
 const roomDay =  "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/light_m0a890.png"
@@ -40,6 +42,11 @@ const giftboxHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q
 const birthdayMusic = "https://res.cloudinary.com/dwcwppo6n/video/upload/q_auto/f_auto/v1780167046/Happy_Birthday_Piano_Version_yrbrn0.mp3"
 
 ///////////////////
+const aniversary_speaker = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1784122738/speaker_jenn5c.png"
+const aniversary_poloroid_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1784122740/aniver_day_akzsao.png"
+const aniversary_poloroid_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1784122739/aniver_night_j5dfau.png"
+
+const aniversary_ending = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784126604/output_pdtnza.mp4"
 
 const guitarHitbox = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765158/guitar-hitbox-light_igspyv.png"
 
@@ -67,6 +74,8 @@ const catHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_aut
 const boardHitbox_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765104/boardHitbox-day_rlsean.png"
 const boardHitbox_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765106/boardHitbox-night_btwewl.png"
 
+//ANIVERSARY
+
 import GuitarModal from "../components/GuitarModal";
 import LettersModal from "../components/LettersModal";
 import SongModal from "../components/SongModal";
@@ -76,6 +85,9 @@ import CatModal from "../components/CatModal";
 import GiftModal from "../components/GiftModal";
 import BoardModal from "../components/BoardModal";
 import GiftboxModal from "../components/GiftboxModal";
+import TimelineModal from "../components/TimelineModal";
+import AniversaryCLIPModal from "../components/AniversaryCLIPModal";
+
 
 function Room({ roomData }) {
 
@@ -153,8 +165,13 @@ function Room({ roomData }) {
 
   const [roomImagesReady, setRoomImagesReady] = useState(false);
 
+//ANIVEFSARY
+  const [timelineOpen, setTimelineOpen] = useState(false);
+  const [aniversaryspeakerOpen, setAniversarySpeakerOpen] = useState(false);
+
+
   //welcome message
-  const [welcomeMessage, setWelcomeMessage] = useState(true);
+  const [welcomeMessage, setWelcomeMessage] = useState(false);
 
   const [birthdaySceneActive, setBirthdaySceneActive] = useState(false);
 
@@ -178,56 +195,56 @@ const effectiveBirthday =
 const loadGuitarMemories = async () => {
   if (guitarMemories.length > 0) return;
 
-  const res = await api.get("/Memories/guitar");
+  const res = await api.get("/api/Memories/guitar");
   setGuitarMemories(res.data);
 };
 
 const loadLetters = async () => {
   if (letters.length > 0) return;
 
-  const res = await api.get("/Letters");
+  const res = await api.get("/api/Letters");
   setLetters(res.data);
 };
 
 const loadSongs = async () => {
   if (songs.length > 0) return;
 
-  const res = await api.get("/Songs");
+  const res = await api.get("/api/Songs");
   setSongs(res.data);
 };
 
 const loadPhotos = async () => {
   if (photos.length > 0) return;
 
-  const res = await api.get("/Photos");
+  const res = await api.get("/api/Photos");
   setPhotos(res.data);
 };
 
 const loadComputerMemories = async () => {
   if (computerMemories.length > 0) return;
 
-  const res = await api.get("/Memories/computer");
+  const res = await api.get("/api/Memories/computer");
   setComputerMemories(res.data);
 };
 
 const loadCatMemories = async () => {
   if (catMemories.length > 0) return;
 
-  const res = await api.get("/Memories/cat");
+  const res = await api.get("/api/Memories/cat");
   setCatMemories(res.data);
 };
 
 const loadBoardMemories = async () => {
   if (boardMemories.length > 0) return;
 
-  const res = await api.get("/Memories/board");
+  const res = await api.get("/api/Memories/board");
   setBoardMemories(res.data);
 };
 
 
 const loadGiftboxPhotos = async () => {
   try {
-    const res = await api.get("/GiftboxPhotos");
+    const res = await api.get("/api/GiftboxPhotos");
 
     console.log(res.data);
 
@@ -761,6 +778,56 @@ const handleLetterEvent = (Event) => {
           }}
         />
       </div>
+    
+
+      {/*ANIVERSARY POLAROID*/}
+      <div
+        className="object-wrapper"
+        onMouseEnter={playHoverSound}
+        style={{
+          left: nightMode ? "57%" : "27%",
+          top: nightMode ? "86%" : "90%",
+          width: nightMode ? "12%" : "16%",
+        }}
+      >
+        <div className="object-label">
+          for our anniversary
+        </div>
+
+        <img
+          src={nightMode ? aniversary_poloroid_night : aniversary_poloroid_day}
+          alt=""
+          className="object-hover"
+          onClick={() => {
+            changeMusic(aniversaryAudio);
+            setTimelineOpen(true);
+          }}
+        />
+      </div>
+
+      {/* ANIVERSARY SPEAKER */}
+      {aniversary_speaker && nightMode && (
+        <div
+          className="object-wrapper"
+          onMouseEnter={playHoverSound}
+          style={{
+            left: "77%",
+            top: "55%",
+            width: "18%",
+          }}
+        >
+          <div className="object-label">
+            My voice for you.
+          </div>
+
+          <img
+            src={aniversary_speaker}
+            alt=""
+            className="object-hover"
+            onClick={() => setAniversarySpeakerOpen(true)}
+          />
+        </div>
+      )}
 
       {/* CAT */}
       <div
@@ -1086,6 +1153,16 @@ const handleLetterEvent = (Event) => {
           photos={giftboxPhotos}
           onOpenGiftBox={switchToGiftboxMusic}
         />
+      <TimelineModal 
+        open={timelineOpen}
+        onClose={() => setTimelineOpen(false)}
+      />
+      <AniversaryCLIPModal
+        open={aniversaryspeakerOpen}
+        onClose={() => setAniversarySpeakerOpen(false)}
+        src={aniversary_ending}
+      />
+
 
       {endingMode && (
         <div className="ending-overlay">

@@ -2,37 +2,99 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
+
 export default defineConfig({
-  plugins: [
-    react(),
 
-    VitePWA({
-      registerType: "autoUpdate",
+plugins: [
 
-      manifest: {
-        name: "Memory Room",
-        short_name: "MemoryRoom",
+react(),
 
-        theme_color: "#000000",
+VitePWA({
 
-        background_color: "#000000",
+registerType: "autoUpdate",
 
-        display: "standalone",
+manifest: {
 
-        icons: [
-          {
-            src: "/icon-192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
+name: "Memory Room",
 
-          {
-            src: "/icon-512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
-      },
-    }),
-  ],
+short_name: "MemoryRoom",
+
+theme_color: "#000000",
+
+background_color: "#000000",
+
+display: "standalone",
+
+icons: [
+{
+src:"/icon-192.png",
+sizes:"192x192",
+type:"image/png",
+},
+
+{
+src:"/icon-512.png",
+sizes:"512x512",
+type:"image/png",
+}
+],
+
+},
+
+
+workbox:{
+
+
+runtimeCaching:[
+
+
+{
+urlPattern:
+({url}) =>
+url.hostname.includes("res.cloudinary.com"),
+
+
+handler:"CacheFirst",
+
+
+options:{
+
+
+cacheName:"cloudinary-media",
+
+
+expiration:{
+
+
+maxEntries:100,
+
+
+maxAgeSeconds:
+60 * 60 * 24 * 30,
+
+
+},
+
+
+cacheableResponse:{
+statuses:[0,200],
+},
+
+
+},
+
+
+},
+
+
+
+]
+
+}
+
+}),
+
+
+],
+
 });
