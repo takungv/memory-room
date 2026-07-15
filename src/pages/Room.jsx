@@ -202,21 +202,21 @@ const loadGuitarMemories = async () => {
 const loadLetters = async () => {
   if (letters.length > 0) return;
 
-  const res = await api.get("/Letters");
+  const res = await api.get("api/Letters");
   setLetters(res.data);
 };
 
 const loadSongs = async () => {
   if (songs.length > 0) return;
 
-  const res = await api.get("/Songs");
+  const res = await api.get("api/Songs");
   setSongs(res.data);
 };
 
 const loadPhotos = async () => {
   if (photos.length > 0) return;
 
-  const res = await api.get("/Photos");
+  const res = await api.get("api/Photos");
   setPhotos(res.data);
 };
 
