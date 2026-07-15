@@ -46,7 +46,7 @@ const aniversary_speaker = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1
 const aniversary_poloroid_day = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1784122740/aniver_day_akzsao.png"
 const aniversary_poloroid_night = "https://res.cloudinary.com/dwcwppo6n/image/upload/v1784122739/aniver_night_j5dfau.png"
 
-const aniversary_ending = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784126604/output_pdtnza.mp4"
+const aniversary_ending = "https://res.cloudinary.com/dwcwppo6n/video/upload/v1784138740/0715_e3gdhw.mp4"
 
 const guitarHitbox = "https://res.cloudinary.com/dwcwppo6n/image/upload/q_auto/f_auto/v1778765158/guitar-hitbox-light_igspyv.png"
 
