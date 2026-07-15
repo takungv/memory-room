@@ -143,6 +143,8 @@ function Room({ roomData }) {
       document.getElementById("bg-audio");
   
     if (!bgAudio) return;
+
+    await safePause(bgAudio);
   
     bgAudio.src = birthdayMusic;
     bgAudio.load();
@@ -443,8 +445,8 @@ const handleLetterEvent = (Event) => {
     nightAmbient.volume = 0.09;
   
     if (bgMusicOn) {
-      bgAudio.pause();
-      nightAmbient.pause();
+      safePause(bgAudio);
+      safePause(nightAmbient);
     } else {
       safePlay(bgAudio);
   
@@ -498,8 +500,7 @@ const handleLetterEvent = (Event) => {
           audio.volume = volume;
         } else {
           clearInterval(fade);
-  
-          audio.pause();
+          safePause(audio);
         }
       }, 120);
     };
@@ -527,7 +528,7 @@ const handleLetterEvent = (Event) => {
   
         clearInterval(fadeOut);
   
-        audio.pause();
+        await safePause(audio);
   
         audio.src = newMusic;
   
