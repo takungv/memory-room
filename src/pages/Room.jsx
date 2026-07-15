@@ -146,7 +146,7 @@ function Room({ roomData }) {
   
     bgAudio.src = birthdayMusic;
     bgAudio.load();
-    bgAudio.play();
+    safePlay(bgAudio);
   };
   
 
@@ -191,6 +191,16 @@ const effectiveBirthday =
   // =========================
 // LOAD ONLY WHEN OPEN
 // =========================
+
+const safePlay = (audio) => {
+  if (!audio) return;
+  const p = audio.play();
+  if (p && typeof p.catch === "function") {
+    p.catch((err) => {
+      console.warn("Autoplay blocked or unsupported:", err);
+    });
+  }
+};
 
 const loadGuitarMemories = async () => {
   if (guitarMemories.length > 0) return;
@@ -360,11 +370,11 @@ const handleLetterEvent = (Event) => {
   
     bgAudio.volume = 0.24;
   
-    bgAudio.play();
+    safePlay(bgAudio);
   
     if (nightMode && nightAmbient) {
       nightAmbient.volume = 0.09;
-      nightAmbient.play();
+      safePlay(nightAmbient);
     }
   
     setBgMusicOn(true);
@@ -413,10 +423,10 @@ const handleLetterEvent = (Event) => {
       bgAudio.pause();
       nightAmbient.pause();
     } else {
-      bgAudio.play();
+      safePlay(bgAudio);
   
       if (nightMode) {
-        nightAmbient.play();
+        safePlay(nightAmbient);
       }
     }
   
@@ -441,7 +451,7 @@ const handleLetterEvent = (Event) => {
     audio.volume = 0.3;
     audio.currentTime = 0;
   
-    audio.play();
+    safePlay(audio);
   };
 
   const triggerEnding = () => {
@@ -502,7 +512,7 @@ const handleLetterEvent = (Event) => {
   
         audio.volume = 0;
   
-        audio.play();
+        safePlay(audio);
   
         let fadeInVolume = 0;
   
@@ -1098,7 +1108,7 @@ const handleLetterEvent = (Event) => {
           const audio = document.getElementById("bg-audio");
 
           if (audio && bgMusicOn) {
-            audio.play();
+            safePlay(audio);
           }
         }}
         memories={guitarMemories}
