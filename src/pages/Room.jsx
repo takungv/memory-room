@@ -142,7 +142,7 @@ function Room({ roomData }) {
     const bgAudio = document.getElementById("bg-audio");
     if (!bgAudio) return;
 
-    safePause(bgAudio);   // ✅ รอ play เดิมก่อน
+    await safePause(bgAudio);   // ✅ รอ play เดิมก่อน
 
     bgAudio.src = birthdayMusic;
     bgAudio.load();
@@ -515,7 +515,7 @@ const handleLetterEvent = (Event) => {
   
     let volume = audio.volume;
   
-    const fadeOut = setInterval(() => {
+    const fadeOut = setInterval(async () => {
   
       if (volume > 0.02) {
   
@@ -526,7 +526,7 @@ const handleLetterEvent = (Event) => {
   
         clearInterval(fadeOut);
   
-        safePause(audio);
+         await safePause(audio);
   
         audio.src = newMusic;
   
